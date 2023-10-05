@@ -1,0 +1,18 @@
+{
+  "name": "uspgymbooking",
+  "version": "1.0.0",
+  "description": "Under Development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss -i styles/input.css -o ./src/main/resources/static/css/main.css",
+    "watch": "tailwindcss -i styles/input.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "tailwindcss": "^3.3.3"
+  }
+}
