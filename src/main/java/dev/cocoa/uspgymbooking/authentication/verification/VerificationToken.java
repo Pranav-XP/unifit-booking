@@ -1,9 +1,10 @@
-package dev.cocoa.uspgymbooking.model;
+package dev.cocoa.uspgymbooking.authentication.verification;
 
 
 import java.util.Calendar;
 import java.util.Date;
 
+import dev.cocoa.uspgymbooking.user.User;
 import jakarta.persistence.*;
 
 @Entity

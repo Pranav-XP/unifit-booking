@@ -1,7 +1,8 @@
-package dev.cocoa.uspgymbooking.model;
+package dev.cocoa.uspgymbooking.user;
 
 import java.util.Collection;
 
+import dev.cocoa.uspgymbooking.authentication.role.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
