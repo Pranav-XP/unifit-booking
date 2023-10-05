@@ -1,4 +1,4 @@
-package dev.cocoa.uspgymbooking.viewcontrollers;
+package dev.cocoa.uspgymbooking.view;
 
 
 import org.springframework.stereotype.Controller;
