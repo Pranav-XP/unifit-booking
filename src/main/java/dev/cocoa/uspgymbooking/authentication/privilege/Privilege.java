@@ -8,7 +8,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Privilege {
 
@@ -32,24 +34,12 @@ public class Privilege {
 
     //
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(final String name) {
         this.name = name;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
     }
 
     public void setRoles(final Collection<Role> roles) {

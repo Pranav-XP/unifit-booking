@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/")
-
 public class ViewController {
 
     @Autowired
@@ -25,6 +24,12 @@ public class ViewController {
         model.addAttribute("name","Pranav");
         return "index";
     }
+
+    @GetMapping("/login")
+    public String loginPage(){
+        return "login";
+    }
+
 
     @GetMapping("/user")
     public ModelAndView userPage(@AuthenticationPrincipal UserDetails authUser){
