@@ -7,6 +7,12 @@
   </head>
   <body class="bg-blue-300">
     <main class="flex flex-col items-center justify-center w-screen h-screen">
+      <div
+        th:if="${param.error != null}"
+        th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}"
+      >
+        error
+      </div>
       <form
         class="flex justify-center w-full lg:w-2/3 text-left"
         action="#"

@@ -8,11 +8,36 @@
   <body class="bg-blue-300">
     <main class="flex items-center justify-around w-screen h-screen">
       <div
-        class="w-fit p-3 rounded-md bg-green-300 my-5 font-semibold text-xl"
+        class="w-fit flex flex-col items-center justify-center p-3 rounded-md border border-neutral-300 bg-slate-50 my-5 font-semibold text-xl"
         th:if="${param.success}"
       >
-        Please check your email to complete registration!
+        <div class="mb-5">Registration successful!</div>
+
+        <a href="/login">
+          <button
+            class="border border-blue-600 text-2xl lg:text-base bg-blue-500 px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
+            type="submit"
+          >
+            Login
+          </button></a
+        >
       </div>
+
+      <div
+        class="w-fit flex flex-col items-center justify-center p-3 rounded-md border border-neutral-300 bg-red-200 my-5 font-semibold text-xl"
+        th:if="${param.error}"
+      >
+        <div class="mb-5">User with that email already exists.</div>
+        <a href="/login">
+          <button
+            class="border border-blue-600 text-2xl lg:text-base bg-blue-500 px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
+            type="submit"
+          >
+            Login
+          </button></a
+        >
+      </div>
+
       <form
         class="flex justify-center w-full lg:w-2/3 text-left"
         action="#"

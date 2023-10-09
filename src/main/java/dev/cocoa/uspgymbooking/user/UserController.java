@@ -1,36 +1,28 @@
 package dev.cocoa.uspgymbooking.user;
 
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/users")
-
+@RequestMapping
+@RequiredArgsConstructor
 public class UserController {
     private final IUserService userService;
+    private final UserRepository userRepository;
 
-    public UserController(IUserService userService) {
-        this.userService = userService;
+    @GetMapping("/user")
+    public ModelAndView userPage(@AuthenticationPrincipal UserDetails authUser){
+        ModelAndView page = new ModelAndView("user");
+        User user = userRepository.findByEmail(authUser.getUsername());
+        page.addObject("user",user);
+        return page;
     }
 
-    @GetMapping
-    public String getUsers(Model model){
-        model.addAttribute("users",userService.getAllUsers());
-        return "users";
-    }
 
-    @GetMapping("/showUserUpdateForm/{id}")
-    public String updateUser(@PathVariable Long id,Model model){
-        User user = userService.getUser(id);
-        model.addAttribute("user",user);
-        return "update-user";
-    }
-
-    @PostMapping("/saveUser")
-    public String saveStudent(@ModelAttribute("user") User user){
-        userService.saveUser(user);
-        return "redirect:/users";
-    }
 }

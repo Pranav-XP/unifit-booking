@@ -1,6 +1,7 @@
 package dev.cocoa.uspgymbooking.user;
 
 import dev.cocoa.uspgymbooking.authentication.role.RoleRepository;
+
 import dev.cocoa.uspgymbooking.exception.UserAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+
 
     @Override
     public List<User> getAllUsers() {
@@ -45,7 +47,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean emailExists(String email) {
+    public boolean emailExists(final String email) {
         return userRepository.findByEmail(email)!=null;
     }
 
@@ -67,4 +69,7 @@ public class UserService implements IUserService {
         target.setEmail(user.getEmail());
         return userRepository.save(target);
     }
+
+
+
 }

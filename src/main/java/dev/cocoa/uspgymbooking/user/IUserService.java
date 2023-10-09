@@ -1,5 +1,6 @@
 package dev.cocoa.uspgymbooking.user;
 
+
 import dev.cocoa.uspgymbooking.exception.UserAlreadyExistException;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface IUserService {
     User saveUser(User user);
 
     User updateUser(User user);
+
 }
 

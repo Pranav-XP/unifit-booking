@@ -1,26 +1,26 @@
 package dev.cocoa.uspgymbooking.authentication.registration;
 
-import dev.cocoa.uspgymbooking.event.RegistrationCompleteEvent;
+
 import dev.cocoa.uspgymbooking.exception.UserAlreadyExistException;
 import dev.cocoa.uspgymbooking.user.IUserService;
 import dev.cocoa.uspgymbooking.user.User;
 import dev.cocoa.uspgymbooking.user.UserDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/registration")
 public class RegistrationController {
     private final IUserService userService;
-    private final ApplicationEventPublisher applicationEventPublisher;
 
     @GetMapping
     public String showRegistrationForm(Model model){
@@ -30,15 +30,17 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") @Valid UserDTO userDto){
-        User registered = null;
-        try {
-            registered = userService.registerUser(userDto);
-        } catch (UserAlreadyExistException e) {
-            throw new RuntimeException(e);
+    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDTO, HttpServletRequest request, Errors errors){
+        try{
+            User registered = userService.registerUser(userDTO);
+        } catch (UserAlreadyExistException uaeEx){
+            ModelAndView mav = new ModelAndView("redirect:/registration?error","user",userDTO);
+            mav.addObject("message","An account with that email already exists");
+        }catch(RuntimeException ex){
+            return new ModelAndView("emailError","user",userDTO);
+
         }
-        //TODO:Publish Event to send Email
-        applicationEventPublisher.publishEvent(new RegistrationCompleteEvent(registered,""));
-        return "redirect:/registration?success";
+        return new ModelAndView("redirect:/registration?success","user",userDTO);
     }
+
 }
