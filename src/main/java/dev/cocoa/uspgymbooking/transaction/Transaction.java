@@ -1,7 +1,6 @@
-package dev.cocoa.uspgymbooking.booking;
+package dev.cocoa.uspgymbooking.transaction;
 
-import dev.cocoa.uspgymbooking.facility.Facility;
-import dev.cocoa.uspgymbooking.transaction.Transaction;
+import dev.cocoa.uspgymbooking.booking.Booking;
 import dev.cocoa.uspgymbooking.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,40 +8,33 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "booking")
+@Table(name="transaction")
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Booking {
+public class Transaction {
     @Id
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private LocalDateTime start;
-
-    private LocalDateTime end;
-
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
-
-    @OneToOne
-    @JoinColumn(name = "facility_id")
-    private Facility facility;
-
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "booking", cascade ={CascadeType.PERSIST})
-    private List<Transaction> transactions;
+    @ManyToOne
+    @JoinColumn(name = "booking_id")
+    private Booking booking;
+
+    private BigDecimal amount;
+
+    private LocalDateTime transactionTime;
 
     @CreatedDate
     @Column(name = "created_date")

@@ -54,28 +54,28 @@
     >
       <nav>
         <div class="flex flex-col font-semibold w-[175px]">
-          <a href=""
+          <a href="/admin"
             ><div
               class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
             >
-              Analytics
+              Home
             </div></a
           >
-          <a href="/admin"
+          <a th:href="@{/admin/schedule}"
             ><div
               class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
             >
               Schedule
             </div></a
           >
-          <a href="/admin"
+          <a th:href="@{/admin/facilities}"
             ><div
               class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
             >
               Facilities
             </div></a
           >
-          <a href="/admin"
+          <a th:href="@{/admin/users}"
             ><div
               class="sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg py-12 pl-3"
             >
@@ -87,7 +87,7 @@
     </aside>
     <main class="mt-[177px] lg:mt-[90px] lg:pl-[175px]">
       <h1 class="text-[70px] lg:text-3xl px-5 py-10 font-bold">
-        Manage Schedules
+        Manage Schedule
       </h1>
     </main>
   </body>

@@ -1,21 +1,24 @@
 package dev.cocoa.uspgymbooking.user;
 
+import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 
 import dev.cocoa.uspgymbooking.authentication.role.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import dev.cocoa.uspgymbooking.booking.Booking;
+import dev.cocoa.uspgymbooking.transaction.Transaction;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "user_account")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
@@ -27,6 +30,8 @@ public class User {
 
     private String lastName;
 
+    private String phoneNumber;
+
     @Column(unique = true)
     private String email;
 
@@ -35,65 +40,59 @@ public class User {
 
     private boolean enabled;
 
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE} , fetch = FetchType.EAGER)
+    private List<Booking> bookings;
+
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST})
+    private List<Transaction> transactions;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
+    @CreatedDate
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
+
     public User() {
         super();
-        this.enabled = false;
+        this.enabled = true;
     }
 
-    public Long getId() {
-        return id;
+    public void setTransactions(final List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void setBookings(final List<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
     public void setFirstName(final String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(final String username) {
         this.email = username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(final String password) {
         this.password = password;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
     public void setRoles(final Collection<Role> roles) {
         this.roles = roles;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
     }
 
     public void setEnabled(final boolean enabled) {

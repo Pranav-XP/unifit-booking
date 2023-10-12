@@ -1,18 +1,17 @@
 package dev.cocoa.uspgymbooking.authentication.role;
 
+import java.time.Instant;
 import java.util.Collection;
 
 import dev.cocoa.uspgymbooking.authentication.privilege.Privilege;
 import dev.cocoa.uspgymbooking.user.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Role {
 
     @Id
@@ -27,6 +26,30 @@ public class Role {
     private Collection<Privilege> privileges;
 
     private String name;
+
+    @CreatedDate
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
+
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public Role() {
         super();

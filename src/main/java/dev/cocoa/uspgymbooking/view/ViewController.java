@@ -19,8 +19,6 @@ public class ViewController {
 
     @GetMapping()
     public String homePage(){
-
-
         return "index";
     }
 

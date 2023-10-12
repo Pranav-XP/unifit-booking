@@ -54,28 +54,28 @@
     >
       <nav>
         <div class="flex flex-col font-semibold w-[175px]">
-          <a href=""
+          <a href="/admin"
             ><div
               class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
             >
-              Analytics
+              Home
             </div></a
           >
-          <a href="/admin"
+          <a th:href="@{/admin/schedule}"
             ><div
               class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
             >
               Schedule
             </div></a
           >
-          <a href="/admin"
+          <a th:href="@{/admin/facilities}"
             ><div
               class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
             >
               Facilities
             </div></a
           >
-          <a href="/admin"
+          <a th:href="@{/admin/users}"
             ><div
               class="sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg py-12 pl-3"
             >
@@ -86,9 +86,76 @@
       </nav>
     </aside>
     <main class="mt-[177px] lg:mt-[90px] lg:pl-[175px]">
-      <h1 class="text-[70px] lg:text-3xl px-5 py-10 font-bold">
+      <h1 class="text-[70px] lg:text-3xl font-bold px-5 py-10">
         Manage Facilities
       </h1>
+
+      <section class="px-5">
+        <h2>Facility Types</h2>
+        <!-- Check if facility types list is not empty -->
+        <th:block th:if="${not #lists.isEmpty(facilityTypes)}">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <!-- Add additional columns as needed -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="facilityType : ${facilityTypes}">
+                <td th:text="${facilityType.id}"></td>
+                <td th:text="${facilityType.name}"></td>
+                <td th:text="${facilityType.rate.toString()}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </th:block>
+
+        <!-- Display a message if facility types list is empty -->
+        <th:block th:if="${#lists.isEmpty(facilityTypes)}">
+          <p>No facility types available.</p>
+        </th:block>
+        <a
+          class="font-semibold underline"
+          th:href="@{/admin/facilities/addtype}"
+        >
+          <div class="py-5">Add facility type</div></a
+        >
+
+        <h2>All Facilities</h2>
+
+        <!-- Check if facilities list is not empty -->
+        <th:block th:if="${not #lists.isEmpty(facilities)}">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <!-- Add additional columns as needed -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="facility : ${facilities}">
+                <td th:text="${facility.id}"></td>
+                <td th:text="${facility.name}"></td>
+                <td th:text="${facility.description}"></td>
+                <td th:text="${facility.status.getDisplayName()}"></td>
+                <!-- Add additional cells for other properties -->
+              </tr>
+            </tbody>
+          </table>
+        </th:block>
+
+        <!-- Display a message if facilities list is empty -->
+        <th:block th:if="${#lists.isEmpty(facilities)}">
+          <p>No facilities available.</p>
+        </th:block>
+        <a class="font-semibold underline" th:href="@{/admin/facilities/add}">
+          <div class="py-5">Add facility</div></a
+        >
+      </section>
     </main>
   </body>
 </html>

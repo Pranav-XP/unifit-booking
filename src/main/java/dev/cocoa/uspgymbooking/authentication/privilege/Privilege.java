@@ -1,17 +1,18 @@
 package dev.cocoa.uspgymbooking.authentication.privilege;
 
+import java.time.Instant;
 import java.util.Collection;
 
 import dev.cocoa.uspgymbooking.authentication.role.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Privilege {
 
     @Id
@@ -22,6 +23,22 @@ public class Privilege {
 
     @ManyToMany(mappedBy = "privileges")
     private Collection<Role> roles;
+
+    @CreatedDate
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
+
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
+    }
 
     public Privilege() {
         super();
