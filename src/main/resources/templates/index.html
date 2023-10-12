@@ -6,39 +6,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <header class="fixed top-0 w-full">
-      <nav
-        class="flex items-center justify-between w-full p-5 bg-blue-600 border-b-2 border-blue-900"
-      >
-        <a href="/"
-          ><h1 class="text-[90px] lg:text-5xl font-bold text-white">
-            UniFit
-          </h1></a
-        >
-        <ul class="flex gap-7 text-[30px] lg:text-lg">
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a href="/facilities/all">Facilities</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a href="/booking">Bookings</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a href="/registration">Register</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a href="/login">Login</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <div th:replace="fragments/header :: header"></div>
     <main class="mt-[88px] p-10">Homepage</main>
   </body>
 </html>

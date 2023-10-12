@@ -6,39 +6,43 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <header class="fixed top-0 w-full">
-      <nav
-        class="flex items-center justify-between w-full p-5 bg-blue-600 border-b-2 border-blue-900"
-      >
-        <a href="/"
-          ><h1 class="text-[90px] lg:text-5xl font-bold text-white">
-            UniFit
-          </h1></a
+    <div th:replace="fragments/header :: header"></div>
+    <main class="mt-[88px] p-10">
+      <h2 class="text-[24px] lg:text-2xl font-bold mb-4">All Facilities</h2>
+
+      <!-- Check if facilities list is not empty -->
+      <th:block th:if="${not #lists.isEmpty(facilities)}">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
         >
-        <ul class="flex gap-7 text-[30px] lg:text-lg">
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
+          <div
+            th:each="facility : ${facilities}"
+            class="bg-white p-4 shadow-md rounded-md"
           >
-            <a href="/facilities/all">Facilities</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a href="/booking">Bookings</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a href="/registration">Register</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a href="/login">Login</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <main class="mt-[88px] p-10">Facilities</main>
+            <p
+              class="font-semibold text-lg mb-2"
+              th:text="${facility.name}"
+            ></p>
+            <p class="text-gray-600 mb-2" th:text="${facility.description}"></p>
+            <p
+              class="text-gray-500"
+              th:text="${facility.status.getDisplayName()}"
+            ></p>
+            <img
+              class="mt-2"
+              th:src="${facility.imageUrl}"
+              th:alt="${facility.name}"
+            />
+          </div>
+        </div>
+      </th:block>
+
+      <!-- Display a message if facilities list is empty -->
+      <th:block th:if="${#lists.isEmpty(facilities)}">
+        <p class="text-gray-500">No facilities available.</p>
+      </th:block>
+    </main>
+
+    <!-- Check if facilities list is not empty -->
   </body>
 </html>

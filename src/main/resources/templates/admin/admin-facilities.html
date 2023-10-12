@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="">
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/sidebar :: aside"></div>
+    <main class="mt-[177px] lg:mt-[90px] lg:pl-[175px]">
+      <div class="container mx-auto px-5">
+        <h1 class="text-4xl lg:text-5xl font-bold py-10">Manage Facilities</h1>
+
+        <section class="px-5 pb-5">
+          <h2 class="text-2xl font-bold mb-4">Facility Types</h2>
+
+          <!-- Check if facility types list is not empty -->
+          <th:block th:if="${not #lists.isEmpty(facilityTypes)}">
+            <table class="min-w-full border border-gray-300">
+              <thead>
+                <tr class="bg-gray-200">
+                  <th class="py-2 px-4 border-b">ID</th>
+                  <th class="py-2 px-4 border-b">Name</th>
+                  <th class="py-2 px-4 border-b">Rate</th>
+                  <!-- Add additional columns as needed -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  th:each="facilityType : ${facilityTypes}"
+                  class="hover:bg-gray-100"
+                >
+                  <td
+                    class="py-2 px-4 border-b"
+                    th:text="${facilityType.id}"
+                  ></td>
+                  <td
+                    class="py-2 px-4 border-b"
+                    th:text="${facilityType.name}"
+                  ></td>
+                  <td
+                    class="py-2 px-4 border-b"
+                    th:text="${facilityType.rate.toString()}"
+                  ></td>
+                </tr>
+              </tbody>
+            </table>
+          </th:block>
+
+          <!-- Display a message if facility types list is empty -->
+          <th:block th:if="${#lists.isEmpty(facilityTypes)}">
+            <p class="pb-2">No facility types available.</p>
+          </th:block>
+
+          <a th:href="@{/admin/facilities/addtype}">
+            <button
+              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
+            >
+              Add Type
+            </button>
+          </a>
+
+          <h2 class="text-2xl font-bold my-4">All Facilities</h2>
+
+          <!-- Check if facilities list is not empty -->
+          <th:block th:if="${not #lists.isEmpty(facilities)}">
+            <table class="min-w-full border border-gray-300">
+              <thead>
+                <tr class="bg-gray-200">
+                  <th class="py-2 px-4 border-b">ID</th>
+                  <th class="py-2 px-4 border-b">Name</th>
+                  <th class="py-2 px-4 border-b">Description</th>
+                  <th class="py-2 px-4 border-b">Status</th>
+                  <!-- Add additional columns as needed -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  th:each="facility : ${facilities}"
+                  class="hover:bg-gray-100"
+                >
+                  <td class="py-2 px-4 border-b" th:text="${facility.id}"></td>
+                  <td
+                    class="py-2 px-4 border-b"
+                    th:text="${facility.name}"
+                  ></td>
+                  <td
+                    class="py-2 px-4 border-b"
+                    th:text="${facility.description}"
+                  ></td>
+                  <td
+                    class="py-2 px-4 border-b"
+                    th:text="${facility.status.getDisplayName()}"
+                  ></td>
+                  <!-- Add additional cells for other properties -->
+                </tr>
+              </tbody>
+            </table>
+          </th:block>
+
+          <!-- Display a message if facilities list is empty -->
+          <th:block th:if="${#lists.isEmpty(facilities)}">
+            <p class="pb-2">No facilities available.</p>
+          </th:block>
+
+          <a th:href="@{/admin/facilities/add}">
+            <button
+              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
+            >
+              Add Facility
+            </button>
+          </a>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

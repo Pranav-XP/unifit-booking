@@ -24,12 +24,12 @@ public class AdminController {
 
     @GetMapping
     public String adminHomePage(){
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("/schedule")
     public String adminSchedulePage(){
-        return "admin-schedule";
+        return "admin/admin-schedule";
     }
 
     @GetMapping("/facilities")
@@ -38,14 +38,14 @@ public class AdminController {
         List<Facility> facilities = facilityService.getAllFacilities();
         model.addAttribute("facilities",facilities);
         model.addAttribute("facilityTypes",facilityTypes);
-        return "admin-facilities";
+        return "admin/admin-facilities";
     }
 
     @GetMapping("/facilities/addtype")
     public String addTypeForm(Model model){
         FacilityType newFacilityType = new FacilityType();
         model.addAttribute("facilityType",newFacilityType);
-        return "add-facility-type";
+        return "admin/add-facility-type";
     }
     @PostMapping("/facilities/addtype")
     public String addFacilityType(@ModelAttribute FacilityType newFacilityType){
@@ -60,7 +60,7 @@ public class AdminController {
         model.addAttribute("facility",newFacility);
         model.addAttribute("facilityTypes",facilityType);
 
-        return "add-facility";
+        return "admin/add-facility";
     }
 
     @PostMapping("/facilities/add")
@@ -73,6 +73,6 @@ public class AdminController {
 
     @GetMapping("/users")
     public String adminUsersPage(){
-        return "admin-users";
+        return "admin/admin-users";
     }
 }

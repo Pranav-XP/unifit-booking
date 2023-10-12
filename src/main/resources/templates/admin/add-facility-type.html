@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Type</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/sidebar :: aside"></div>
+    <main class="mt-[177px] lg:mt-[90px] lg:pl-[175px]">
+      <h1 class="text-[70px] lg:text-3xl px-5 py-10 font-bold">Add Type</h1>
+      <form
+        th:action="@{/admin/facilities/addtype}"
+        th:object="${facilityType}"
+        method="post"
+        class="max-w-md mt-8 ml-5 bg-white p-6 rounded-md shadow-md"
+      >
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
+            >Name:</label
+          >
+          <input
+            type="text"
+            id="name"
+            name="name"
+            th:field="*{name}"
+            required
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="rate" class="block text-gray-700 text-sm font-bold mb-2"
+            >Rate:</label
+          >
+          <input
+            type="number"
+            id="rate"
+            name="rate"
+            th:field="*{rate}"
+            required
+            class="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+        >
+          Add Facility Type
+        </button>
+      </form>
+    </main>
+  </body>
+</html>

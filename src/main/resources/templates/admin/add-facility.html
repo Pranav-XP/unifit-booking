@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Facility</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/sidebar :: aside"></div>
+
+    <main class="mt-[177px] lg:mt-[90px] lg:pl-[175px]">
+      <h1
+        class="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl px-5 py-6 lg:py-10 font-bold"
+      >
+        Add Facility
+      </h1>
+
+      <form
+        class="flex flex-col gap-3 px-10 w-full pb-10"
+        th:object="${facility}"
+        method="post"
+        th:action="@{/admin/facilities/add}"
+      >
+        <label for="name" class="text-gray-700 text-sm font-bold mb-2"
+          >Name:</label
+        >
+        <input
+          class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+          type="text"
+          id="name"
+          name="name"
+          th:field="*{name}"
+          required
+        />
+
+        <label for="description" class="text-gray-700 text-sm font-bold mb-2"
+          >Description:</label
+        >
+        <textarea
+          class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500 resize-none"
+          id="description"
+          name="description"
+          th:field="*{description}"
+          rows="4"
+          required
+        ></textarea>
+
+        <label for="image" class="text-gray-700 text-sm font-bold mb-2"
+          >Image Url:</label
+        >
+        <input
+          class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+          type="url"
+          id="image"
+          name="image"
+          th:field="*{imageUrl}"
+          required
+        />
+
+        <!-- Check if facility types list is not empty -->
+        <th:block th:if="${not #lists.isEmpty(facilityTypes)}">
+          <table class="w-full mt-4">
+            <thead>
+              <tr>
+                <th class="border px-4 py-2">ID</th>
+                <th class="border px-4 py-2">Name</th>
+                <th class="border px-4 py-2">Rate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                th:each="facilityType : ${facilityTypes}"
+                class="even:bg-gray-100"
+              >
+                <td class="border px-4 py-2" th:text="${facilityType.id}"></td>
+                <td
+                  class="border px-4 py-2"
+                  th:text="${facilityType.name}"
+                ></td>
+                <td
+                  class="border px-4 py-2"
+                  th:text="${facilityType.rate.toString()}"
+                ></td>
+              </tr>
+            </tbody>
+          </table>
+        </th:block>
+
+        <!-- Display a message if facility types list is empty -->
+        <th:block th:if="${#lists.isEmpty(facilityTypes)}">
+          <p class="text-gray-700 mt-4">No facility types available.</p>
+        </th:block>
+
+        <label for="facilityTypeId" class="text-gray-700 text-sm font-bold mt-4"
+          >Enter Type ID:</label
+        >
+        <input
+          class="border border-gray-300 p-2 rounded-md focus:outline-none focus:border-blue-500"
+          type="number"
+          name="facilityTypeId"
+          id="facilityTypeId"
+        />
+
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mt-4"
+        >
+          Add Facility Type
+        </button>
+      </form>
+    </main>
+  </body>
+</html>
