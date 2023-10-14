@@ -78,7 +78,7 @@ public class BookingService implements IBookingService {
         List<LocalTime> bookedTimes = bookingRepository.findBookedStartTimesByFacilityAndDate(facilityId, date);
 
         // Logic to calculate available times
-        return calculateAvailableTimes(openingTime,closingTime, bookedTimes);
+        return calculateAvailableTimes(openingTime,closingTime, bookedTimes,date);
     }
 
     @Override
@@ -94,12 +94,24 @@ public class BookingService implements IBookingService {
         return bookingRepository.findAll(pageable);
     }
 
-    private List<LocalTime> calculateAvailableTimes(LocalTime openingTime,LocalTime facilityClosingTime, List<LocalTime> bookedTimes) {
+    private List<LocalTime> calculateAvailableTimes(LocalTime openingTime,LocalTime facilityClosingTime, List<LocalTime> bookedTimes,LocalDate date) {
         // Extract opening and closing times
         LocalTime currentTime = openingTime;
         LocalTime closingTime = facilityClosingTime;
         List<LocalTime> availableTimes = new ArrayList<>();
 
+        //If the current date is picked then Time which has passed should not be considered.
+        if(date.isEqual(LocalDate.now())){
+            while (currentTime.isBefore(closingTime)) {
+                // Check if the currentTime is after the current time
+                if (currentTime.isAfter(LocalTime.now())) {
+                    availableTimes.add(currentTime);
+                }
+                currentTime = currentTime.plusHours(1);
+            }
+            availableTimes.removeAll(bookedTimes);
+            return availableTimes;
+        }
 
         while(currentTime.isBefore(closingTime)){
             availableTimes.add(currentTime);

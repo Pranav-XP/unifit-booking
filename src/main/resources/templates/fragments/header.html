@@ -1,10 +1,18 @@
 <!-- header.html -->
-<header class="fixed z-10 top-0 w-full">
+<header class="fixed z-10 top-0 w-full" xmlns:sec="http://www.thymeleaf.org">
   <nav
     class="flex items-center justify-between w-full p-5 bg-blue-600 border-b-2 border-blue-900"
   >
     <a th:href="@{/}">
-      <h1 class="text-4xl lg:text-5xl font-extrabold text-white">UniFit</h1>
+      <h1
+        cclass="text-4xl lg:text-5xl font-extrabold text-white flex items-center gap-4"
+      >
+        UniFit<i class="w-16 h-16" data-lucide="graduation-cap"></i>
+        <script src="https://unpkg.com/lucide@latest"></script>
+        <script>
+          lucide.createIcons();
+        </script>
+      </h1>
     </a>
 
     <!-- Desktop Menu -->
