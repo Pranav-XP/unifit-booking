@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "facility")
@@ -23,6 +24,7 @@ public class Facility {
     @Column(unique = true)
     private String name;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
 
     private String imageUrl;
@@ -42,4 +44,15 @@ public class Facility {
     @Column(name = "last_modified_date")
     private Instant lastModifiedDate;
 
+    @Column(name = "weekday_opening_time")
+    private LocalTime weekdayOpeningTime;
+
+    @Column(name = "weekday_closing_time")
+    private LocalTime weekdayClosingTime;
+
+    @Column(name = "weekend_opening_time")
+    private LocalTime weekendOpeningTime;
+
+    @Column(name = "weekend_closing_time")
+    private LocalTime weekendClosingTime;
 }

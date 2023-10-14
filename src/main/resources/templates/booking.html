@@ -10,7 +10,9 @@
     <div th:replace="fragments/header :: header"></div>
 
     <main class="mt-[88px] p-10">
-      <h2 class="">Select a facility</h2>
+      <h2 class="text-xl md:text-2xl lg:text-3xl font-bold mt-6 mb-8">
+        Select a Facility
+      </h2>
       <!-- Facilities Container -->
       <div class="container mx-auto mt-8">
         <!-- Facility Cards -->
@@ -28,11 +30,35 @@
               class="w-full h-32 object-cover"
             />
             <div class="p-6">
-              <h2
-                class="text-xl font-semibold mb-2"
-                th:text="${facility.name}"
-              ></h2>
-              <p class="text-gray-700" th:text="${facility.description}"></p>
+              <div class="flex justify-between items-center">
+                <h2
+                  class="text-xl font-semibold mb-2"
+                  th:text="${facility.name}"
+                >
+                  Name
+                </h2>
+                <div
+                  th:text="${facility.status.getDisplayName()}"
+                  class="bg-green-300 text-sm text-lime-700 p-0.5 rounded-md font-md"
+                ></div>
+              </div>
+              <p class="mb-2">
+                <span class="font-bold">Weekdays:</span>
+                <span
+                  th:text="${#temporals.format(facility.weekdayOpeningTime, 'h:mma')}+ ' to ' + ${#temporals.format(facility.weekdayClosingTime, 'h:mma')}"
+                ></span>
+              </p>
+              <p class="mb-2">
+                <span class="font-bold">Weekends:</span>
+                <span
+                  th:text="${#temporals.format(facility.weekendOpeningTime, 'h:mma')} + ' to ' + ${#temporals.format(facility.weekendClosingTime, 'h:mma')}"
+                ></span>
+              </p>
+              <a
+                th:href="@{/booking/{id}(id=${facility.id})}"
+                class="bg-blue-500 w-full font-medium text-center text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mt-4 inline-block"
+                >Select</a
+              >
             </div>
           </div>
         </div>

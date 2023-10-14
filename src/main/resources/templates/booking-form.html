@@ -1,0 +1,89 @@
+<!-- booking-form.html -->
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Create Booking</title>
+  </head>
+  <body>
+    <h2>Create Booking</h2>
+
+    <form th:action="@{/bookings/create}" method="post" th:object="${booking}">
+      <label for="bookedDate">Booked Date:</label>
+      <input type="date" id="bookedDate" name="bookedDate" required />
+
+      <label for="timeSlots">Time Slots:</label>
+      <div th:each="timeSlot, iterStat : *{timeSlots}" class="time-slot">
+        <input
+          type="time"
+          th:field="*{timeSlots[__${iterStat.index}__].startTime}"
+          required
+        />
+        <span>to</span>
+        <input
+          type="time"
+          th:field="*{timeSlots[__${iterStat.index}__].endTime}"
+          required
+        />
+        <button type="button" onclick="removeTimeSlot(this)">Remove</button>
+      </div>
+      <button type="button" onclick="addTimeSlot()">Add Time Slot</button>
+
+      <label for="facility">Facility:</label>
+      <select id="facility" name="facility">
+        <!-- Populate facility options from the backend if needed -->
+        <option value="1">Facility 1</option>
+        <option value="2">Facility 2</option>
+      </select>
+
+      <!-- Other fields and submit button go here -->
+
+      <button type="submit">Create Booking</button>
+    </form>
+
+    <script th:inline="javascript">
+      // JavaScript functions to add and remove time slots dynamically
+      function addTimeSlot() {
+        var container = document.querySelector(".time-slot-container");
+        var newTimeSlot = document.createElement("div");
+        newTimeSlot.className = "time-slot";
+
+        // Create input for start time
+        var startTimeInput = document.createElement("input");
+        startTimeInput.type = "time";
+        startTimeInput.name =
+          "timeSlots[" + container.children.length + "].startTime";
+        startTimeInput.required = true;
+
+        // Create input for end time
+        var endTimeInput = document.createElement("input");
+        endTimeInput.type = "time";
+        endTimeInput.name =
+          "timeSlots[" + container.children.length + "].endTime";
+        endTimeInput.required = true;
+
+        // Create remove button
+        var removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.textContent = "Remove";
+        removeButton.addEventListener("click", function () {
+          container.removeChild(newTimeSlot);
+        });
+
+        // Append inputs and button to the new time slot div
+        newTimeSlot.appendChild(startTimeInput);
+        newTimeSlot.appendChild(document.createTextNode(" to "));
+        newTimeSlot.appendChild(endTimeInput);
+        newTimeSlot.appendChild(removeButton);
+
+        // Append the new time slot to the container
+        container.appendChild(newTimeSlot);
+      }
+
+      function removeTimeSlot(button) {
+        button.parentNode.remove();
+      }
+    </script>
+  </body>
+</html>

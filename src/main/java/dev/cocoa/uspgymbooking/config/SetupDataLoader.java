@@ -4,6 +4,10 @@ import dev.cocoa.uspgymbooking.authentication.privilege.Privilege;
 import dev.cocoa.uspgymbooking.authentication.privilege.PrivilegeRepository;
 import dev.cocoa.uspgymbooking.authentication.role.Role;
 import dev.cocoa.uspgymbooking.authentication.role.RoleRepository;
+import dev.cocoa.uspgymbooking.facility.Facility;
+import dev.cocoa.uspgymbooking.facility.FacilityRepository;
+import dev.cocoa.uspgymbooking.facility.facilitytype.FacilityType;
+import dev.cocoa.uspgymbooking.facility.facilitytype.FacilityTypeRepository;
 import dev.cocoa.uspgymbooking.user.User;
 import dev.cocoa.uspgymbooking.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +34,10 @@ public class SetupDataLoader implements
 
     private final PrivilegeRepository privilegeRepository;
 
+    private final FacilityTypeRepository facilityTypeRepository;
+
+    private final FacilityRepository facilityRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -48,7 +56,8 @@ public class SetupDataLoader implements
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
 
-       /* Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        /*Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        //Create Admin User
         User user = new User();
         user.setFirstName("Admin");
         user.setLastName("Admin");
@@ -56,7 +65,13 @@ public class SetupDataLoader implements
         user.setEmail("admin@admin.com");
         user.setRoles(Arrays.asList(adminRole));
         user.setEnabled(true);
-        userRepository.save(user);*/
+        userRepository.save(user);
+
+        //Creating Outdoor field type and Soccer Field
+        FacilityType facilityType = new FacilityType();
+        facilityType.setName("Outdoor Field");
+        facilityType.setRate(20);
+        facilityTypeRepository.save(facilityType);*/
 
         alreadySetup = true;
     }

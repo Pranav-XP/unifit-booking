@@ -28,8 +28,8 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id")
+    @OneToOne
+    @JoinColumn(name = "booking_id", unique = true)
     private Booking booking;
 
     private BigDecimal amount;

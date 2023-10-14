@@ -12,27 +12,38 @@
 
       <!-- Check if facilities list is not empty -->
       <th:block th:if="${not #lists.isEmpty(facilities)}">
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-        >
+        <div class="container mx-auto mt-8">
+          <!-- Facility Cards -->
           <div
-            th:each="facility : ${facilities}"
-            class="bg-white p-4 shadow-md rounded-md"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
           >
-            <p
-              class="font-semibold text-lg mb-2"
-              th:text="${facility.name}"
-            ></p>
-            <p class="text-gray-600 mb-2" th:text="${facility.description}"></p>
-            <p
-              class="text-gray-500"
-              th:text="${facility.status.getDisplayName()}"
-            ></p>
-            <img
-              class="mt-2"
-              th:src="${facility.imageUrl}"
-              th:alt="${facility.name}"
-            />
+            <!-- Iterate over facilities and generate cards -->
+            <div
+              th:each="facility : ${facilities}"
+              class="bg-white rounded-lg overflow-hidden shadow-md"
+            >
+              <img
+                th:src="${facility.imageUrl}"
+                alt="Facility Image"
+                class="w-full h-32 object-cover"
+              />
+              <div class="p-6">
+                <div class="flex justify-between items-center">
+                  <h2
+                    class="text-xl font-semibold mb-2"
+                    th:text="${facility.name}"
+                  >
+                    Name
+                  </h2>
+                  <div
+                    th:text="${facility.status.getDisplayName()}"
+                    class="bg-green-300 text-sm text-lime-700 p-0.5 rounded-md font-md"
+                  ></div>
+                </div>
+
+                <p class="text-gray-700" th:text="${facility.description}"></p>
+              </div>
+            </div>
           </div>
         </div>
       </th:block>

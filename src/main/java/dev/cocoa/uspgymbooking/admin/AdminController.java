@@ -1,5 +1,7 @@
 package dev.cocoa.uspgymbooking.admin;
 
+import dev.cocoa.uspgymbooking.booking.Booking;
+import dev.cocoa.uspgymbooking.booking.BookingService;
 import dev.cocoa.uspgymbooking.facility.Facility;
 import dev.cocoa.uspgymbooking.facility.FacilityService;
 import dev.cocoa.uspgymbooking.facility.facilitytype.FacilityType;
@@ -20,10 +22,13 @@ import java.util.List;
 public class AdminController {
     private final FacilityService facilityService;
     private final FacilityTypeService facilityTypeService;
+    private final BookingService bookingService;
 
 
     @GetMapping
-    public String adminHomePage(){
+    public String adminHomePage(Model model){
+        List<Booking> bookings = bookingService.getBookings();
+        model.addAttribute("bookings",bookings);
         return "admin/admin";
     }
 

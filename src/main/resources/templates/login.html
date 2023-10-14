@@ -7,8 +7,8 @@
   </head>
   <body class="bg-blue-300">
     <main class="flex flex-col items-center justify-center w-screen h-screen">
-      <div th:if="${param.error != null}" th:text="${}">
-        Error while logging in!
+      <div th:if="${param.error != null}" th:text="Error">
+        Incorrect credentials!
       </div>
       <form
         class="flex justify-center w-full lg:w-2/3 text-left"
@@ -49,9 +49,9 @@
           </button>
           <div class="flex justify-between lg:pt-2 pt-3">
             <span class="text-base lg:text-sm text-slate-500"
-              >Forgot password?
-              <a class="underline text-blue-500" href="/login/reset"
-                >Reset</a
+              >No account?
+              <a class="underline text-blue-500" href="/registration"
+                >Register</a
               ></span
             >
             <span class="text-base lg:text-sm text-neutral-800 underline"

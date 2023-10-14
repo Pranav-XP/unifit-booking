@@ -30,7 +30,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth->{
                     auth.requestMatchers("/admin/**").hasRole("ADMIN")
-                            .requestMatchers("/booking/**","/facility/**").authenticated()
+                            .requestMatchers("/booking/**").authenticated()
                             .anyRequest().permitAll();
                 }).formLogin(httpSecurityFormLoginConfigurer -> {
                     httpSecurityFormLoginConfigurer

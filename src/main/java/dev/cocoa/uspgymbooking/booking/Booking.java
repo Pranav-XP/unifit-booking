@@ -9,11 +9,11 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "booking")
@@ -26,9 +26,11 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private LocalDateTime start;
+    private LocalDate bookedDate;
 
-    private LocalDateTime end;
+    private LocalTime start;
+
+    private LocalTime end;
 
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
@@ -41,8 +43,8 @@ public class Booking {
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "booking", cascade ={CascadeType.PERSIST})
-    private List<Transaction> transactions;
+    @OneToOne(mappedBy = "booking")
+    private Transaction transaction;
 
     @CreatedDate
     @Column(name = "created_date")

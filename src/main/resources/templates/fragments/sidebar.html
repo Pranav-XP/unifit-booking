@@ -1,37 +1,31 @@
 <!-- sidebar.html -->
 <aside
-  class="fixed hidden lg:block bg-slate-100 w-fit border-r-2 border-neutral-400 left-0 top-[90px] h-screen overflow-hidden"
+  class="hidden lg:block bg-slate-100 w-fit border-r-2 border-neutral-400 fixed top-[90px] h-screen overflow-hidden"
 >
-  <nav>
-    <div class="flex flex-col font-semibold w-[175px]">
-      <a href="/admin">
-        <div
-          class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
-        >
-          Home
-        </div>
-      </a>
-      <a th:href="@{/admin/schedule}">
-        <div
-          class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
-        >
-          Schedule
-        </div>
-      </a>
-      <a th:href="@{/admin/facilities}">
-        <div
-          class="border-b sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
-        >
-          Facilities
-        </div>
-      </a>
-      <a th:href="@{/admin/users}">
-        <div
-          class="sm:hover:bg-neutral-200 active:bg-neutral-200 text-lg py-12 pl-3"
-        >
-          Users
-        </div>
-      </a>
-    </div>
+  <nav class="flex flex-col font-semibold w-[175px]">
+    <a
+      href="/admin"
+      class="border-b hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
+    >
+      Dashboard
+    </a>
+    <a
+      th:href="@{/admin/schedule}"
+      class="border-b hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
+    >
+      Manage Schedule
+    </a>
+    <a
+      th:href="@{/admin/facilities}"
+      class="border-b hover:bg-neutral-200 active:bg-neutral-200 text-lg border-neutral-400 py-12 pl-3"
+    >
+      Manage Facilities
+    </a>
+    <a
+      th:href="@{/admin/users}"
+      class="hover:bg-neutral-200 active:bg-neutral-200 text-lg py-12 pl-3"
+    >
+      Users
+    </a>
   </nav>
 </aside>

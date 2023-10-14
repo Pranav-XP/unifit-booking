@@ -15,7 +15,7 @@ public class FacilityController {
 
     private final FacilityService facilityService;
 
-    @GetMapping("/all")
+    @GetMapping("")
     public String displayAllFacilities(Model model){
        List<Facility> facilities = facilityService.getAllFacilities();
        model.addAttribute("facilities",facilities);
