@@ -56,7 +56,7 @@ public class SetupDataLoader implements
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
 
-        /*Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         //Create Admin User
         User user = new User();
         user.setFirstName("Admin");
@@ -71,7 +71,7 @@ public class SetupDataLoader implements
         FacilityType facilityType = new FacilityType();
         facilityType.setName("Outdoor Field");
         facilityType.setRate(20);
-        facilityTypeRepository.save(facilityType);*/
+        facilityTypeRepository.save(facilityType);
 
         alreadySetup = true;
     }

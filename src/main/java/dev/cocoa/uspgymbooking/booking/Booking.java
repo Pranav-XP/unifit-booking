@@ -35,8 +35,8 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
-    @OneToOne
-    @JoinColumn(name = "facility_id")
+    @ManyToOne
+    @JoinColumn(name = "facility_id", nullable = false)
     private Facility facility;
 
     @ManyToOne
