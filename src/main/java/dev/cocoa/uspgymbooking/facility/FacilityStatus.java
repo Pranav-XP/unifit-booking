@@ -4,7 +4,7 @@ public enum FacilityStatus {
     AVAILABLE("Available"),
     UNAVAILABLE("Unavailable"),
     MAINTENANCE("Maintenance"),
-    DELETED("Deleted");
+    DELETED("Removed");
 
     private final String displayName;
 
@@ -14,6 +14,15 @@ public enum FacilityStatus {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public static String getStatusColor(FacilityStatus status) {
+        return switch (status) {
+            case AVAILABLE -> "bg-green-300 text-sm text-green-800 p-0.5 rounded-md font-semibold";
+            case UNAVAILABLE -> "bg-red-300 text-sm text-red-800 p-0.5 rounded-md font-semibold";
+            case MAINTENANCE -> "bg-yellow-300 text-yellow-800 text-sm rounded-md font-semibold";
+            case DELETED -> "bg-gray-200 text-gray-800 text-sm rounded-md font-semibold";
+        };
     }
 }
 

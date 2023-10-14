@@ -2,9 +2,8 @@ package dev.cocoa.uspgymbooking.booking;
 
 public enum BookingStatus {
     PENDING("Pending"),
-    PAID("Paid"),
-    COMPLETE("Complete"),
-    DELETED("DELETED");
+    COMPLETE("Completed"),
+    DELETED("Cancelled");
 
     private final String displayName;
 
@@ -14,6 +13,15 @@ public enum BookingStatus {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public static String getStatusColor(BookingStatus status) {
+        return switch (status) {
+            case PENDING -> "bg-yellow-200 text-yellow-800 font-semibold text-center border-b";
+            case COMPLETE -> "bg-blue-200 text-blue-800 font-semibold text-center border-b";
+            case DELETED -> "bg-red-200 text-red-800 font-semibold text-center border-b";
+            default -> "bg-gray-200 text-gray-800 font-semibold text-center border-b";
+        };
     }
 }
 

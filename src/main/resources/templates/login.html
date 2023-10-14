@@ -7,7 +7,10 @@
   </head>
   <body class="bg-blue-300">
     <main class="flex flex-col items-center justify-center w-screen h-screen">
-      <div th:if="${param.error != null}" th:text="Error">
+      <div
+        class="bg-red-400 m-5 p-5 rounded-md font-bold text-neutral-800 border border-red-800"
+        th:if="${param.error != null}"
+      >
         Incorrect credentials!
       </div>
       <form

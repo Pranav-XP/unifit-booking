@@ -10,176 +10,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100">
-    <!--Header Fragment-->
-    <!--<div th:replace="fragments/header :: header"></div>-->
-    <!-- header.html -->
-    <header class="fixed top-0 w-full">
-      <nav
-        class="flex items-center justify-between w-full p-5 bg-blue-600 border-b-2 border-blue-900"
-      >
-        <a th:href="@{/}">
-          <h1 class="text-4xl lg:text-5xl font-bold text-white">UniFit</h1>
-        </a>
-
-        <!-- Desktop Menu -->
-        <ul
-          class="hidden lg:flex gap-7 text-lg"
-          sec:authorize="isAuthenticated()"
-        >
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a th:href="@{/facilities}">Facilities</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a th:href="@{/booking}">Bookings</a>
-          </li>
-          <li
-            sec:authorize="hasRole('ROLE_ADMIN')"
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a th:href="@{/admin}">Dashboard</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a th:href="@{/logout}">Logout</a>
-          </li>
-        </ul>
-
-        <ul
-          class="hidden lg:flex gap-7 text-lg"
-          sec:authorize="!isAuthenticated()"
-        >
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a th:href="@{/facilities}">Facilities</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a th:href="@{/registration}">Register</a>
-          </li>
-          <li
-            class="text-white hover:underline active:underline font-semibold cursor-pointer"
-          >
-            <a th:href="@{/login}">Login</a>
-          </li>
-        </ul>
-
-        <!-- Mobile Menu (visible on small screens) -->
-        <div class="lg:hidden flex items-center">
-          <button
-            class="text-white hover:text-gray-300 focus:outline-none"
-            id="mobile-menu-button"
-          >
-            <!-- Add your mobile menu icon (e.g., hamburger icon) here -->
-            ☰
-          </button>
-        </div>
-      </nav>
-
-      <!-- Mobile Sidebar (hidden by default) -->
-      <div
-        id="mobile-sidebar"
-        class="lg:hidden fixed inset-0 bg-blue-600 bg-opacity-75 z-50 hidden"
-      >
-        <div class="flex justify-end p-5">
-          <button
-            class="text-white hover:text-gray-300 focus:outline-none"
-            id="close-mobile-sidebar"
-          >
-            <!-- Add your close icon (e.g., X) here -->
-            ✕
-          </button>
-        </div>
-        <ul class="text-white text-lg p-5 flex flex-col gap-3">
-          <li class="hover:underline active:underline cursor-pointer">
-            <a th:href="@{/facilities}">Facilities</a>
-          </li>
-          <li
-            sec:authorize="isAuthenticated()"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/booking}">Bookings</a>
-          </li>
-          <li
-            sec:authorize="hasRole('ROLE_ADMIN')"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/admin}">Dashboard</a>
-          </li>
-
-          <li
-            sec:authorize="hasRole('ROLE_ADMIN')"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/admin/facilities}">Manage Facilities</a>
-          </li>
-
-          <li
-            sec:authorize="hasRole('ROLE_ADMIN')"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/admin/schedule}">Manage Schedule</a>
-          </li>
-
-          <li
-            sec:authorize="hasRole('ROLE_ADMIN')"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/admin/users}">Manage Bookings</a>
-          </li>
-
-          <li
-            sec:authorize="isAuthenticated()"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/logout}">Logout </a>
-          </li>
-          <li
-            sec:authorize="!isAuthenticated()"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/registration}"> Register</a>
-          </li>
-          <li
-            sec:authorize="!isAuthenticated()"
-            class="hover:underline active:underline cursor-pointer"
-          >
-            <a th:href="@{/login}">Login</a>
-          </li>
-        </ul>
-      </div>
-      <script>
-        // JavaScript to toggle mobile sidebar visibility
-        document
-          .getElementById("mobile-menu-button")
-          .addEventListener("click", function () {
-            document
-              .getElementById("mobile-sidebar")
-              .classList.remove("hidden");
-          });
-
-        document
-          .getElementById("close-mobile-sidebar")
-          .addEventListener("click", function () {
-            document.getElementById("mobile-sidebar").classList.add("hidden");
-          });
-      </script>
-    </header>
-
-    <main class="mt-[60px] p-10">
+    <!--HEADER FRAGMENT-->
+    <div th:replace="fragments/header :: header"></div>
+    <main class="mt-16 lg:mt-[60px] p-5 lg:pl-10 lg:pr-20">
       <h2 class="text-xl md:text-2xl lg:text-3xl font-bold mt-6 mb-8">
         Select a date and available time
       </h2>
-      <div class="grid grid-cols-2">
-        <section id="bookingForm" class="border-r border-slate-500 p-1">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <section id="bookingForm" class="lg:p-4">
           <form
-            class="flex bg-gray-200 border rounded-md flex-col gap-3 p-5"
+            class="flex bg-gray-200 border rounded-md flex-col gap-3 p-4"
             method="post"
             th:action="@{/booking/add}"
             th:object="${booking}"
@@ -199,24 +39,30 @@
               >
             </p>
 
+            <p class="font-semibold">
+              Total Amount:
+              <span
+                class="font-normal"
+                th:text="'$' + ${facility.facilityType.rate}"
+              ></span>
+            </p>
+
             <input
               type="hidden"
               id="userId"
               name="userId"
               th:field="*{userId}"
             />
-
             <input
               type="hidden"
               id="selectedFacilityId"
               th:field="*{facilityId}"
             />
-
             <input type="hidden" id="facilityId" th:value="${facility.id}" />
 
             <label for="bookingDate" class="font-semibold">Date:</label>
             <input
-              class="p-1 rounded-sm"
+              class="p-2 rounded"
               type="date"
               id="bookingDate"
               th:field="*{bookedDate}"
@@ -224,8 +70,9 @@
               required
             />
 
-            <label for="startTime">Start Time:</label>
+            <label for="startTime" class="font-semibold">Start Time:</label>
             <input
+              class="p-2 rounded"
               type="time"
               readonly
               required
@@ -233,8 +80,9 @@
               th:field="*{start}"
             />
 
-            <label for="endTime">End Time:</label>
+            <label for="endTime" class="font-semibold">End Time:</label>
             <input
+              class="p-2 rounded"
               type="time"
               readonly
               required
@@ -244,112 +92,114 @@
 
             <button
               type="submit"
-              class="border border-blue-600 text-2xl lg:text-base bg-blue-500 px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white sm:w-full md:w-auto lg:w-auto xl:w-auto"
+              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white w-full"
             >
               Book Facility
             </button>
-
-            <script>
-              document.addEventListener("DOMContentLoaded", function () {
-                let datepicker = document.getElementById("bookingDate");
-                datepicker.addEventListener("input", function () {
-                  let selectedDate = datepicker.value;
-
-                  let facilityId = document.getElementById("facilityId").value;
-
-                  console.log(selectedDate);
-                  console.log(facilityId);
-
-                  // Call the function to fetch available times
-                  fetchAvailableTimes(selectedDate, facilityId);
-                });
-
-                // Delegate the click event to the parent container
-                document
-                  .getElementById("availableTimes")
-                  .addEventListener("click", function (event) {
-                    if (event.target.classList.contains("time-slot")) {
-                      // Get the clicked time from the div's data-time attribute
-                      let clickedTime = event.target.getAttribute("data-time");
-
-                      // Set the booking start and end time in the form
-                      document.getElementById("startTime").value = clickedTime;
-                      // You can set the end time based on your business logic
-
-                      // For example, add one hour to the clicked time
-                      let endDateTime = new Date(`2000-01-01 ${clickedTime}`);
-                      endDateTime.setHours(endDateTime.getHours() + 1);
-
-                      document.getElementById("endTime").value =
-                        endDateTime.toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        });
-                    }
-                  });
-              });
-
-              function fetchAvailableTimes(selectedDate, facilityId) {
-                // Make a fetch request to your Spring Boot endpoint
-                fetch(
-                  `/api/v1/availableTimes?date=${selectedDate}&facilityId=${facilityId}`,
-                )
-                  .then((response) => {
-                    if (!response.ok) {
-                      throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.json();
-                  })
-                  .then((data) => {
-                    let availableTimesDiv =
-                      document.getElementById("availableTimes");
-                    availableTimesDiv.innerHTML = "";
-
-                    // Create divs for each available time
-                    data.forEach((time) => {
-                      var div = document.createElement("div");
-                      div.innerText = formatTime(time);
-                      div.setAttribute("data-time", time);
-                      div.classList.add(
-                        "time-slot",
-                        "bg-blue-500",
-                        "text-white",
-                        "rounded",
-                        "px-4",
-                        "py-2",
-                        "cursor-pointer",
-                      );
-                      availableTimesDiv.appendChild(div);
-                    });
-                  })
-                  .catch((error) => {
-                    console.error("Fetch error:", error);
-                  });
-              }
-
-              function formatTime(time) {
-                // Format time to display as "7:00am"
-                const parsedTime = new Date(`2000-01-01T${time}`);
-                const hours = parsedTime.getHours();
-                const minutes = parsedTime.getMinutes();
-                const period = hours >= 12 ? "pm" : "am";
-                const formattedHours = (hours % 12 === 0 ? 12 : hours % 12)
-                  .toString()
-                  .padStart(2, "0");
-                const formattedMinutes = minutes.toString().padStart(2, "0");
-
-                return `${formattedHours}:${formattedMinutes}${period}`;
-              }
-            </script>
           </form>
         </section>
-        <section class="flex flex-col pl-5">
-          <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold">
+        <section class="flex flex-col pl-0 lg:pl-5">
+          <h2 class="text-xl md:text-2xl lg:text-3xl font-semibold pb-2">
             Available Times
           </h2>
-          <div id="availableTimes" class="flex gap-3"></div>
+          <div id="availableTimes" class="flex flex-wrap gap-5"></div>
         </section>
       </div>
     </main>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let datepicker = document.getElementById("bookingDate");
+      datepicker.addEventListener("input", function () {
+        let selectedDate = datepicker.value;
+
+        let facilityId = document.getElementById("facilityId").value;
+
+        console.log(selectedDate);
+        console.log(facilityId);
+
+        // Call the function to fetch available times
+        fetchAvailableTimes(selectedDate, facilityId);
+      });
+
+      // Delegate the click event to the parent container
+      document
+        .getElementById("availableTimes")
+        .addEventListener("click", function (event) {
+          if (event.target.classList.contains("time-slot")) {
+            // Get the clicked time from the div's data-time attribute
+            let clickedTime = event.target.getAttribute("data-time");
+
+            // Set the booking start and end time in the form
+            document.getElementById("startTime").value = clickedTime;
+            // You can set the end time based on your business logic
+
+            // For example, add one hour to the clicked time
+            let endDateTime = new Date(`2000-01-01 ${clickedTime}`);
+            endDateTime.setHours(endDateTime.getHours() + 1);
+
+            document.getElementById("endTime").value =
+              endDateTime.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+          }
+        });
+    });
+
+    function fetchAvailableTimes(selectedDate, facilityId) {
+      // Make a fetch request to your Spring Boot endpoint
+      fetch(
+        `/api/v1/availableTimes?date=${selectedDate}&facilityId=${facilityId}`,
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          let availableTimesDiv = document.getElementById("availableTimes");
+          availableTimesDiv.innerHTML = "";
+
+          // Create divs for each available time
+          data.forEach((time) => {
+            let div = document.createElement("div");
+            div.innerText = formatTime(time);
+            div.setAttribute("data-time", time);
+            div.classList.add(
+              "time-slot",
+              "bg-blue-500",
+              "hover:bg-blue-600",
+              "text-white",
+              "font-semibold",
+              "border",
+              "border-blue-600",
+              "rounded",
+              "px-4",
+              "py-2",
+              "cursor-pointer",
+            );
+            availableTimesDiv.appendChild(div);
+          });
+        })
+        .catch((error) => {
+          console.error("Fetch error:", error);
+        });
+    }
+
+    function formatTime(time) {
+      // Format time to display as "7:00am"
+      const parsedTime = new Date(`2000-01-01T${time}`);
+      const hours = parsedTime.getHours();
+      const minutes = parsedTime.getMinutes();
+      const period = hours >= 12 ? "pm" : "am";
+      const formattedHours = (hours % 12 === 0 ? 12 : hours % 12)
+        .toString()
+        .padStart(2, "0");
+      const formattedMinutes = minutes.toString().padStart(2, "0");
+
+      return `${formattedHours}:${formattedMinutes}${period}`;
+    }
+  </script>
 </html>

@@ -11,9 +11,8 @@
     <div th:replace="fragments/admin-header.html :: header"></div>
     <div th:replace="fragments/sidebar :: aside"></div>
     <main class="p-10 lg:ml-[190px] lg:pt-10 pt-20">
-      <h1 class="text-3xl lg:text-5xl px-5 py-5 font-bold">Dashboard Home</h1>
+      <h1 class="text-3xl lg:text-5xl px-5 py-5 font-bold">All Bookings</h1>
       <!-- Table -->
-      <h2 class="text-2xl lg:text-3xl px-5 py-5 font-bold">Weekly Outlook</h2>
       <div class="overflow-x-auto bg-white rounded-md shadow-md p-5">
         <div class="mb-4">
           <label for="customerNameSearch" class="block font-semibold mb-1"
@@ -74,12 +73,39 @@
             </tr>
           </tbody>
         </table>
-      </div>
-      <div class="w-full">
-        <h2 class="text-2xl lg:text-3xl px-5 py-5 font-bold">
-          Bookings by Facility
-        </h2>
-        <canvas id="bookingChart" width="500" height="200"></canvas>
+        <div th:if="${totalPages > 1}">
+          <div class="mt-2 grid grid-cols-3">
+            <div>Total rows: [[${totalItems}]]</div>
+            <div>
+              <span th:each="i: ${#numbers.sequence(1,totalPages)}">
+                <a
+                  th:if="${currentPage!=i}"
+                  th:href="@{'/admin/booking/page/'+${i}}"
+                  >[[${i}]]</a
+                >
+                <span th:unless="${currentPage!=i}">[[${i}]]</span>
+              </span>
+            </div>
+            <div class="flex gap-2">
+              <div>
+                <a
+                  th:if="${currentPage<totalPages}"
+                  th:href="@{'/admin/booking/page/' + ${currentPage+1}}"
+                  >Next</a
+                >
+                <span th:unless="${currentPage< totalPages}">Next</span>
+              </div>
+              <div>
+                <a
+                  th:if="${currentPage<totalPages}"
+                  th:href="@{'/admin/booking/page/' + ${totalPages}}"
+                  >Next</a
+                >
+                <span th:unless="${currentPage< totalPages}">Last</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </body>

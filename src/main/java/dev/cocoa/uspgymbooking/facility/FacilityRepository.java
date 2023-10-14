@@ -20,9 +20,10 @@ public interface FacilityRepository extends JpaRepository<Facility,Long> {
 
     @Query("SELECT f.weekendClosingTime FROM Facility f WHERE f.id = :facilityId")
     LocalTime findWeekendClosingTimeByFacilityId(@Param("facilityId") Long facilityId);
-    @Query("SELECT f.weekdayOpeningTime, f.weekdayClosingTime FROM Facility f WHERE f.id = :facilityId")
+
+   /* @Query("SELECT f.weekdayOpeningTime, f.weekdayClosingTime FROM Facility f WHERE f.id = :facilityId")
     List<LocalTime> findWeekdayOpeningAndClosingTimeByFacilityId(@Param("facilityId") Long facilityId);
 
     @Query("SELECT f.weekendOpeningTime, f.weekendClosingTime FROM Facility f WHERE f.id = :facilityId")
-    List<LocalTime> findWeekendOpeningAndClosingTimeByFacilityId(@Param("facilityId") Long facilityId);
+    List<LocalTime> findWeekendOpeningAndClosingTimeByFacilityId(@Param("facilityId") Long facilityId);*/
 }

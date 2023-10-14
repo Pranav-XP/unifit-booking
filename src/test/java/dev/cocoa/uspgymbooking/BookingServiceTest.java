@@ -40,9 +40,21 @@ class BookingServiceTest {
         LocalDate date = LocalDate.of(2023, 10, 13); // Assuming it's a weekday
 
         // Mocking repository responses
-        List<LocalTime> openingClosingTimes = Arrays.asList(LocalTime.of(9, 0), LocalTime.of(18, 0));
-        when(facilityRepository.findWeekdayOpeningAndClosingTimeByFacilityId(facilityId))
-                .thenReturn(openingClosingTimes);
+        LocalTime openingTime = LocalTime.of(9,0);
+        LocalTime closingTime = LocalTime.of(18,0);
+        when(facilityRepository.findWeekdayOpeningTimeByFacilityId(facilityId))
+                .thenReturn(openingTime);
+
+        when(facilityRepository.findWeekdayClosingTimeByFacilityId(facilityId))
+                .thenReturn(closingTime);
+
+        when(facilityRepository.findWeekendOpeningTimeByFacilityId(facilityId))
+                .thenReturn(openingTime);
+
+        when(facilityRepository.findWeekendClosingTimeByFacilityId(facilityId))
+                .thenReturn(closingTime);
+
+
 
         // Assume all times are booked
         List<LocalTime> bookedTimes = Arrays.asList();
@@ -54,7 +66,7 @@ class BookingServiceTest {
         List<LocalTime> result = bookingService.getAvailableTimes(facilityId, date);
 
         // Print out times
-        System.out.println("Opening and Closing Times: " + openingClosingTimes);
+        System.out.println("Opening hours: " + openingTime +" to " + closingTime);
         System.out.println("Booked Times: " + bookedTimes);
         System.out.println("Available Times: " + result);
 
@@ -62,7 +74,8 @@ class BookingServiceTest {
         assertEquals(result.size(),result.size()-bookedTimes.size()); // No times are booked
 
         // Verify that the repository methods were called
-        verify(facilityRepository).findWeekdayOpeningAndClosingTimeByFacilityId(facilityId);
+        verify(facilityRepository).findWeekdayOpeningTimeByFacilityId(facilityId);
+        verify(facilityRepository).findWeekdayClosingTimeByFacilityId(facilityId);
         verify(bookingRepository).findBookedStartTimesByFacilityAndDate(facilityId, date);
     }
 
@@ -73,9 +86,19 @@ class BookingServiceTest {
         LocalDate date = LocalDate.of(2023, 10, 13); // Assuming it's a weekday
 
         // Mocking repository responses
-        List<LocalTime> openingClosingTimes = Arrays.asList(LocalTime.of(9, 0), LocalTime.of(18, 0));
-        when(facilityRepository.findWeekdayOpeningAndClosingTimeByFacilityId(facilityId))
-                .thenReturn(openingClosingTimes);
+        LocalTime openingTime = LocalTime.of(9, 0);
+        LocalTime closingTime = LocalTime.of(18, 0);
+        when(facilityRepository.findWeekdayOpeningTimeByFacilityId(facilityId))
+                .thenReturn(openingTime);
+
+        when(facilityRepository.findWeekdayClosingTimeByFacilityId(facilityId))
+                .thenReturn(closingTime);
+
+        when(facilityRepository.findWeekendOpeningTimeByFacilityId(facilityId))
+                .thenReturn(openingTime);
+
+        when(facilityRepository.findWeekendClosingTimeByFacilityId(facilityId))
+                .thenReturn(closingTime);
 
         // Assume all times are booked
         List<LocalTime> bookedTimes = Arrays.asList(LocalTime.of(9, 0), LocalTime.of(10, 0), LocalTime.of(11, 0),
@@ -89,7 +112,7 @@ class BookingServiceTest {
         List<LocalTime> result = bookingService.getAvailableTimes(facilityId, date);
 
         // Print out times
-        System.out.println("Opening and Closing Times: " + openingClosingTimes);
+        System.out.println("Opening hours: " + openingTime +" to " + closingTime);
         System.out.println("Booked Times: " + bookedTimes);
         System.out.println("Available Times: " + result);
 
@@ -97,7 +120,8 @@ class BookingServiceTest {
         assertEquals(Arrays.asList(), result); // All times are booked
 
         // Verify that the repository methods were called
-        verify(facilityRepository).findWeekdayOpeningAndClosingTimeByFacilityId(facilityId);
+        verify(facilityRepository).findWeekdayOpeningTimeByFacilityId(facilityId);
+        verify(facilityRepository).findWeekdayClosingTimeByFacilityId(facilityId);
         verify(bookingRepository).findBookedStartTimesByFacilityAndDate(facilityId, date);
     }
 
@@ -108,9 +132,19 @@ class BookingServiceTest {
         LocalDate date = LocalDate.of(2023, 10, 13); // Assuming it's a weekday
 
         // Mocking repository responses
-        List<LocalTime> openingClosingTimes = Arrays.asList(LocalTime.of(9, 0), LocalTime.of(18, 0));
-        when(facilityRepository.findWeekdayOpeningAndClosingTimeByFacilityId(facilityId))
-                .thenReturn(openingClosingTimes);
+        LocalTime openingTime = LocalTime.of(9,0);
+        LocalTime closingTime = LocalTime.of(18,0);
+        when(facilityRepository.findWeekdayOpeningTimeByFacilityId(facilityId))
+                .thenReturn(openingTime);
+
+        when(facilityRepository.findWeekdayClosingTimeByFacilityId(facilityId))
+                .thenReturn(closingTime);
+
+        when(facilityRepository.findWeekendOpeningTimeByFacilityId(facilityId))
+                .thenReturn(openingTime);
+
+        when(facilityRepository.findWeekendClosingTimeByFacilityId(facilityId))
+                .thenReturn(closingTime);
 
         // Assume only two times are booked
         List<LocalTime> bookedTimes = Arrays.asList(LocalTime.of(10, 0), LocalTime.of(14, 0));
@@ -121,7 +155,7 @@ class BookingServiceTest {
         List<LocalTime> result = bookingService.getAvailableTimes(facilityId, date);
 
         // Print out times
-        System.out.println("Opening and Closing Times: " + openingClosingTimes);
+        System.out.println("Opening hours: " + openingTime +" to " + closingTime);
         System.out.println("Booked Times: " + bookedTimes);
         System.out.println("Available Times: " + result);
 
@@ -130,8 +164,9 @@ class BookingServiceTest {
                         LocalTime.of(13, 0), LocalTime.of(15, 0), LocalTime.of(16, 0), LocalTime.of(17, 0)),
                 result); // Only two times are booked
 
-        // Verify that the repository methods were called
-        verify(facilityRepository).findWeekdayOpeningAndClosingTimeByFacilityId(facilityId);
-        verify(bookingRepository).findBookedStartTimesByFacilityAndDate(facilityId, date);
+            // Verify that the repository methods were called
+            verify(facilityRepository).findWeekdayOpeningTimeByFacilityId(facilityId);
+            verify(facilityRepository).findWeekdayClosingTimeByFacilityId(facilityId);
+            verify(bookingRepository).findBookedStartTimesByFacilityAndDate(facilityId, date);
     }
 }

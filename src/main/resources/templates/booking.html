@@ -39,7 +39,7 @@
                 </h2>
                 <div
                   th:text="${facility.status.getDisplayName()}"
-                  class="bg-green-300 text-sm text-lime-700 p-0.5 rounded-md font-md"
+                  th:class="${T(dev.cocoa.uspgymbooking.facility.FacilityStatus).getStatusColor(facility.status)}"
                 ></div>
               </div>
               <p class="mb-2">
@@ -55,6 +55,7 @@
                 ></span>
               </p>
               <a
+                th:if="${facility.status == T(dev.cocoa.uspgymbooking.facility.FacilityStatus).AVAILABLE}"
                 th:href="@{/booking/{id}(id=${facility.id})}"
                 class="bg-blue-500 w-full font-medium text-center text-white p-2 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue mt-4 inline-block"
                 >Select</a

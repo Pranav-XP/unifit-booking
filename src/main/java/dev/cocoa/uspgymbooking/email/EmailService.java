@@ -4,6 +4,7 @@ import com.sendgrid.*;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
+import dev.cocoa.uspgymbooking.booking.Booking;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,11 @@ public class EmailService {
     @Value("${sendgrid.template.booking}")
     private String bookingTemplate;
 
-    public void sendBookingEmail(String to, Map<String,String> dynamicTemplateData) throws IOException{
+    public void sendBookingEmail(Booking booking) throws IOException{
         System.out.println(apiKey);
         System.out.println(bookingTemplate);
         Email from = new Email("pranavchand777@gmail.com");
-        Email toEmail = new Email(to);
+        Email toEmail = new Email(booking.getUser().getEmail());
         Mail mail = new Mail();
 
         mail.setFrom(from);
@@ -35,28 +36,21 @@ public class EmailService {
 
         Personalization personalization = new Personalization();
         personalization.addTo(toEmail);
-
-        for (Map.Entry<String,String> entry : dynamicTemplateData.entrySet()){
-            personalization.addDynamicTemplateData(entry.getKey(), entry.getValue());
-        }
-
-        /*Map<String, String> data = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
 
         // Add firstname
-        data.put("firstName", "TESTEMAIL");
-        data.put("facilityName","Pool");
-        data.put("bookingStart","2023-10-01T10:00:00.000Z");
-        data.put("bookingEnd","2023-10-01T11:00:00.000Z");
+        data.put("firstName", booking.getUser().getFirstName());
+        data.put("facilityName",booking.getFacility().getName());
+        data.put("bookingDate",booking.getBookedDate().toString());
+        data.put("bookingStart",booking.getStart().toString());
+        data.put("bookingEnd",booking.getEnd().toString());
         data.put("dateFormat","DD MMM YYYY h:mm A");
-        data.put("total","50");
+        data.put("total",booking.getFacility().getFacilityType().getRate().toString());
         data.put("transactionId","T2345");
 
-
-        try {
-            email.sendBookingEmail("pranavchand777@gmail.com",data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
+        for (Map.Entry<String,String> entry : data.entrySet()){
+            personalization.addDynamicTemplateData(entry.getKey(), entry.getValue());
+        }
 
         mail.addPersonalization(personalization);
 

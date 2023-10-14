@@ -1,5 +1,6 @@
 package dev.cocoa.uspgymbooking.booking;
 
+import dev.cocoa.uspgymbooking.facility.Facility;
 import dev.cocoa.uspgymbooking.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,5 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     @Query("SELECT b.start FROM Booking b WHERE b.facility.id = :facilityId AND b.bookedDate = :date")
     List<LocalTime> findBookedStartTimesByFacilityAndDate(@Param("facilityId") Long facilityId, @Param("date") LocalDate date);
 
+    Integer countBookingsByFacility(Facility facility);
 }

@@ -7,6 +7,10 @@ import dev.cocoa.uspgymbooking.user.User;
 import dev.cocoa.uspgymbooking.user.UserRepository;
 import dev.cocoa.uspgymbooking.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -47,6 +51,11 @@ public class BookingService implements IBookingService {
     }
 
     @Override
+    public Booking getBooking(Long id) {
+        return bookingRepository.findById(id).get();
+    }
+
+    @Override
     public List<Booking> getBookingsByUser(User user) {
         return bookingRepository.findAllByUser(user);
     }
@@ -72,6 +81,19 @@ public class BookingService implements IBookingService {
         return calculateAvailableTimes(openingTime,closingTime, bookedTimes);
     }
 
+    @Override
+    public Booking saveBooking(Booking updatedBooking) {
+        Booking booking = bookingRepository.findById(updatedBooking.getId()).get();
+        booking.setStatus(updatedBooking.getStatus());
+        return bookingRepository.save(booking);
+    }
+
+    @Override
+    public Page<Booking> getPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize, Sort.by("bookedDate").descending());
+        return bookingRepository.findAll(pageable);
+    }
+
     private List<LocalTime> calculateAvailableTimes(LocalTime openingTime,LocalTime facilityClosingTime, List<LocalTime> bookedTimes) {
         // Extract opening and closing times
         LocalTime currentTime = openingTime;
@@ -87,7 +109,5 @@ public class BookingService implements IBookingService {
         availableTimes.removeAll(bookedTimes);
 
         return availableTimes;
-
     }
-
 }

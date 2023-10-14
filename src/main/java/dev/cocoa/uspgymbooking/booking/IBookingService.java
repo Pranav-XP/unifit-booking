@@ -1,6 +1,7 @@
 package dev.cocoa.uspgymbooking.booking;
 
 import dev.cocoa.uspgymbooking.user.User;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,7 +12,13 @@ public interface IBookingService {
 
     List<Booking> getBookings();
 
+    Booking getBooking(Long id);
+
     List<Booking> getBookingsByUser(User user);
     List<LocalTime> getAvailableTimes(Long facilityId, LocalDate date);
+
+    Booking saveBooking(Booking booking);
+
+    Page<Booking> getPaginated(int pageNo, int pageSize);
 
 }
