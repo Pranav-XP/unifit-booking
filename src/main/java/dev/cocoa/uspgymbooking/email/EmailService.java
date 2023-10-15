@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,17 +37,9 @@ public class EmailService {
 
         Personalization personalization = new Personalization();
         personalization.addTo(toEmail);
-        Map<String, String> data = new HashMap<>();
 
-        // Add firstname
-        data.put("firstName", booking.getUser().getFirstName());
-        data.put("facilityName",booking.getFacility().getName());
-        data.put("bookingDate",booking.getBookedDate().toString());
-        data.put("bookingStart",booking.getStart().toString());
-        data.put("bookingEnd",booking.getEnd().toString());
-        data.put("dateFormat","DD MMM YYYY h:mm A");
-        data.put("total",booking.getFacility().getFacilityType().getRate().toString());
-        data.put("transactionId","T2345");
+        Map<String, String> data = createBookingEmailPayload(booking);
+
 
         for (Map.Entry<String,String> entry : data.entrySet()){
             personalization.addDynamicTemplateData(entry.getKey(), entry.getValue());
@@ -69,6 +62,37 @@ public class EmailService {
             System.out.println("BOOKING EMAIL SERVICE: "+ ex.getMessage());
             throw ex;
         }
+    }
+
+    private Map<String,String> createBookingEmailPayload(Booking booking){
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mma");
+        BookingEmailDTO bookingPayload;
+        bookingPayload = new BookingEmailDTO();
+
+        String customerName = booking.getUser().getFirstName() + " " + booking.getUser().getLastName();
+
+        bookingPayload.setBookingId(booking.getId().toString());
+        bookingPayload.setCustomerName(customerName);
+        bookingPayload.setBookingDate(booking.getBookedDate().format(dateFormatter));
+        bookingPayload.setBookingStart(booking.getStart().format(timeFormatter));
+        bookingPayload.setBookingEnd(booking.getEnd().format(timeFormatter));
+        bookingPayload.setFacilityName(booking.getFacility().getName());
+        bookingPayload.setStatus(booking.getStatus().getDisplayName());
+        bookingPayload.setTotal(booking.getFacility().getFacilityType().getRate().toString());
+
+        Map<String, String> data = new HashMap<>();
+
+        // Add firstname
+        data.put("bookingId", bookingPayload.getBookingId());
+        data.put("customerName",bookingPayload.getCustomerName());
+        data.put("bookingDate",bookingPayload.getBookingDate());
+        data.put("facilityName",bookingPayload.getFacilityName());
+        data.put("bookingStart",bookingPayload.getBookingStart());
+        data.put("bookingEnd",bookingPayload.getBookingEnd());
+        data.put("total",bookingPayload.getTotal());
+
+        return data;
     }
 
 }

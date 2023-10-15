@@ -20,5 +20,4 @@ public interface IBookingService {
     Booking saveBooking(Booking booking);
 
     Page<Booking> getPaginated(int pageNo, int pageSize);
-
 }

@@ -53,9 +53,9 @@
             <p class="pb-2">No facility types available.</p>
           </th:block>
 
-          <a th:href="@{/admin/facilities/addtype}">
+          <a th:href="@{/admin/facilities/addtype}" class="mt-2">
             <button
-              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
+              class="border w-full border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
             >
               Add Type
             </button>
@@ -67,10 +67,9 @@
           <th:block th:if="${not #lists.isEmpty(facilities)}">
             <table class="min-w-full border border-gray-300">
               <thead>
-                <tr class="bg-gray-200">
+                <tr class="bg-gray-200 text-left">
                   <th class="py-2 px-4 border-b">ID</th>
                   <th class="py-2 px-4 border-b">Name</th>
-                  <th class="py-2 px-4 border-b">Description</th>
                   <th class="py-2 px-4 border-b">Status</th>
                   <!-- Add additional columns as needed -->
                 </tr>
@@ -87,10 +86,6 @@
                   ></td>
                   <td
                     class="py-2 px-4 border-b"
-                    th:text="${facility.description}"
-                  ></td>
-                  <td
-                    class="py-2 px-4 border-b"
                     th:text="${facility.status.getDisplayName()}"
                   ></td>
                   <!-- Add additional cells for other properties -->
@@ -104,9 +99,9 @@
             <p class="pb-2">No facilities available.</p>
           </th:block>
 
-          <a th:href="@{/admin/facilities/add}">
+          <a th:href="@{/admin/facilities/add}" class="mt-2">
             <button
-              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
+              class="border w-full border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
             >
               Add Facility
             </button>

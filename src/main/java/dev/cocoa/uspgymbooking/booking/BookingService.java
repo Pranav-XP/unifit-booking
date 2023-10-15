@@ -1,8 +1,10 @@
 package dev.cocoa.uspgymbooking.booking;
 
+import dev.cocoa.uspgymbooking.email.EmailService;
 import dev.cocoa.uspgymbooking.facility.Facility;
 import dev.cocoa.uspgymbooking.facility.FacilityRepository;
 import dev.cocoa.uspgymbooking.facility.FacilityService;
+import dev.cocoa.uspgymbooking.notification.NotificationService;
 import dev.cocoa.uspgymbooking.user.User;
 import dev.cocoa.uspgymbooking.user.UserRepository;
 import dev.cocoa.uspgymbooking.user.UserService;
@@ -11,8 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,6 +32,8 @@ public class BookingService implements IBookingService {
     private final FacilityRepository facilityRepository;
     private final FacilityService facilityService;
     private final UserService userService;
+    private final EmailService emailService;
+    private final NotificationService notificationService;
 
     @Override
     public Booking createBooking(BookingFormDTO form) {
@@ -42,7 +48,21 @@ public class BookingService implements IBookingService {
         booking.setEnd(form.getEnd());
         booking.setStatus(BookingStatus.PENDING);
 
-        return bookingRepository.save(booking);
+        Booking savedBooking = bookingRepository.save(booking);
+
+            BookingNotification notification = new BookingNotification();
+            notification.setBookingId(booking.getId());
+            notification.setCustomerName(booking.getUser().getFirstName());
+            notification.setFacilityName(booking.getFacility().getName());
+            notificationService.notifyAdmin(notification);
+
+        try {
+            emailService.sendBookingEmail(savedBooking);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return savedBooking;
     }
 
     @Override
@@ -93,6 +113,7 @@ public class BookingService implements IBookingService {
         Pageable pageable = PageRequest.of(pageNo-1,pageSize, Sort.by("bookedDate").descending());
         return bookingRepository.findAll(pageable);
     }
+
 
     private List<LocalTime> calculateAvailableTimes(LocalTime openingTime,LocalTime facilityClosingTime, List<LocalTime> bookedTimes,LocalDate date) {
         // Extract opening and closing times
