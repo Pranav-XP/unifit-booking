@@ -20,12 +20,17 @@
       <li
         class="text-white hover:underline active:underline font-semibold cursor-pointer"
       >
+        <a th:href="@{/user}">My Bookings</a>
+      </li>
+      <li
+        class="text-white hover:underline active:underline font-semibold cursor-pointer"
+      >
         <a th:href="@{/facilities}">Facilities</a>
       </li>
       <li
         class="text-white hover:underline active:underline font-semibold cursor-pointer"
       >
-        <a th:href="@{/booking}">Bookings</a>
+        <a th:href="@{/booking}">Book</a>
       </li>
       <li
         sec:authorize="hasRole('ROLE_ADMIN')"

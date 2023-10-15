@@ -10,107 +10,182 @@
     <div th:replace="fragments/sidebar :: aside"></div>
     <main class="p-10 lg:ml-[190px] lg:pt-10 pt-20">
       <div class="container mx-auto px-5">
-        <h1 class="text-4xl lg:text-5xl font-bold py-10">Manage Facilities</h1>
-
         <section class="px-5 pb-5">
-          <h2 class="text-2xl font-bold mb-4">Facility Types</h2>
+          <h2
+            class="text-2xl font-bold my-4"
+            th:text="'Update'+${facility.name}"
+          ></h2>
+          <!-- Edit Facility Form -->
+          <form
+            th:action="@{/admin/facilities/update}"
+            method="post"
+            th:object="${facility}"
+            class="w-full bg-white p-8 rounded-md shadow-md"
+          >
+            <!-- Facility Name -->
+            <div class="mb-4">
+              <input
+                type="hidden"
+                id="facilityId"
+                name="name"
+                th:field="*{id}"
+                class="w-full px-3 py-2 border rounded-md"
+                required
+              />
+              <label for="name" class="block text-gray-700 font-semibold mb-2"
+                >Facility Name:</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                th:field="*{name}"
+                class="w-full px-3 py-2 border rounded-md"
+                required
+              />
+            </div>
 
-          <!-- Check if facility types list is not empty -->
-          <th:block th:if="${not #lists.isEmpty(facilityTypes)}">
-            <table class="min-w-full border border-gray-300">
-              <thead>
-                <tr class="bg-gray-200">
-                  <th class="py-2 px-4 border-b text-left">ID</th>
-                  <th class="py-2 px-4 border-b text-left">Name</th>
-                  <th class="py-2 px-4 border-b text-left">Rate</th>
-                  <!-- Add additional columns as needed -->
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  th:each="facilityType : ${facilityTypes}"
-                  class="hover:bg-gray-100"
-                >
-                  <td
-                    class="py-2 px-4 border-b"
-                    th:text="${facilityType.id}"
-                  ></td>
-                  <td
-                    class="py-2 px-4 border-b"
-                    th:text="${facilityType.name}"
-                  ></td>
-                  <td
-                    class="py-2 px-4 border-b"
-                    th:text="${facilityType.rate.toString()}"
-                  ></td>
-                </tr>
-              </tbody>
-            </table>
-          </th:block>
+            <!-- Facility Description -->
+            <div class="mb-4">
+              <label
+                for="description"
+                class="block text-gray-700 font-semibold mb-2"
+                >Facility Description:</label
+              >
+              <textarea
+                id="description"
+                name="description"
+                th:text="${facility.description}"
+                th:field="*{description}"
+                class="w-full px-3 py-2 border rounded-md"
+                required
+              ></textarea>
+            </div>
 
-          <!-- Display a message if facility types list is empty -->
-          <th:block th:if="${#lists.isEmpty(facilityTypes)}">
-            <p class="pb-2">No facility types available.</p>
-          </th:block>
+            <!-- Facility Image URL -->
+            <div class="mb-4">
+              <label
+                for="imageUrl"
+                class="block text-gray-700 font-semibold mb-2"
+                >Facility Image URL:</label
+              >
+              <input
+                required
+                type="text"
+                id="imageUrl"
+                name="imageUrl"
+                th:field="*{imageUrl}"
+                class="w-full px-3 py-2 border rounded-md"
+              />
+            </div>
 
-          <a th:href="@{/admin/facilities/addtype}">
-            <button
-              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
-            >
-              Add Type
-            </button>
-          </a>
+            <!-- Facility Status -->
+            <div class="mb-4">
+              <label for="status" class="block text-gray-700 font-semibold mb-2"
+                >Facility Status:</label
+              >
+              <select
+                id="status"
+                th:field="*{status}"
+                name="status"
+                class="w-full px-3 py-2 border rounded-md"
+              >
+                <!-- Add options based on your enum values -->
+                <option
+                  th:each="status : ${T(dev.cocoa.uspgymbooking.facility.FacilityStatus).values()}"
+                  th:value="${status}"
+                  th:text="${status.getDisplayName()}"
+                ></option>
+              </select>
+            </div>
 
-          <h2 class="text-2xl font-bold my-4">All Facilities</h2>
+            <h3 class="font-bold text-xl">Opening Hours:</h3>
+            <p class="mb-2">
+              <span class="font-bold">Weekdays:</span>
+              <span
+                th:text="${#temporals.format(facility.weekdayOpeningTime, 'h:mma')}+ ' to ' + ${#temporals.format(facility.weekdayClosingTime, 'h:mma')}"
+              ></span>
+            </p>
+            <p class="mb-5">
+              <span class="font-bold">Weekends:</span>
+              <span
+                th:text="${#temporals.format(facility.weekendOpeningTime, 'h:mma')} + ' to ' + ${#temporals.format(facility.weekendClosingTime, 'h:mma')}"
+              ></span>
+            </p>
 
-          <!-- Check if facilities list is not empty -->
-          <th:block th:if="${not #lists.isEmpty(facilities)}">
-            <table class="min-w-full border border-gray-300">
-              <thead>
-                <tr class="bg-gray-200">
-                  <th class="py-2 px-4 border-b">ID</th>
-                  <th class="py-2 px-4 border-b">Name</th>
-                  <th class="py-2 px-4 border-b">Description</th>
-                  <th class="py-2 px-4 border-b">Status</th>
-                  <!-- Add additional columns as needed -->
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  th:each="facility : ${facilities}"
-                  class="hover:bg-gray-100"
-                >
-                  <td class="py-2 px-4 border-b" th:text="${facility.id}"></td>
-                  <td
-                    class="py-2 px-4 border-b"
-                    th:text="${facility.name}"
-                  ></td>
-                  <td
-                    class="py-2 px-4 border-b"
-                    th:text="${facility.description}"
-                  ></td>
-                  <td
-                    class="py-2 px-4 border-b"
-                    th:text="${facility.status.getDisplayName()}"
-                  ></td>
-                  <!-- Add additional cells for other properties -->
-                </tr>
-              </tbody>
-            </table>
-          </th:block>
+            <!-- Facility Opening and Closing Times -->
+            <h3 class="font-bold text-xl">Weekday Hours:</h3>
+            <div class="mb-4">
+              <label
+                for="weekdayOpeningTime"
+                class="block text-gray-700 font-semibold mb-2"
+                >Opening Time:</label
+              >
+              <input
+                type="time"
+                id="weekdayOpeningTime"
+                name="weekdayOpeningTime"
+                th:field="*{weekdayOpeningTime}"
+                class="w-full px-3 py-2 border rounded-md"
+              />
+            </div>
 
-          <!-- Display a message if facilities list is empty -->
-          <th:block th:if="${#lists.isEmpty(facilities)}">
-            <p class="pb-2">No facilities available.</p>
-          </th:block>
+            <div class="mb-4">
+              <label
+                for="weekdayClosingTime"
+                class="block text-gray-700 font-semibold"
+                >Weekday Closing Time:</label
+              >
+              <input
+                type="time"
+                id="weekdayClosingTime"
+                name="weekdayClosingTime"
+                th:field="*{weekdayClosingTime}"
+                class="w-full px-3 py-2 border rounded-md mb-5"
+              />
+            </div>
 
-          <a th:href="@{/admin/facilities/add}">
-            <button
-              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-4 lg:px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white"
-            >
-              Add Facility
-            </button>
-          </a>
+            <h3 class="font-bold text-xl">Weekend Hours:</h3>
+            <div class="mb-4">
+              <label
+                for="weekendOpeningTime"
+                class="block text-gray-700 font-semibold mb-2"
+                >Opening Time:</label
+              >
+              <input
+                type="time"
+                id="weekendOpeningTime"
+                name="weekendOpeningTime"
+                th:field="*{weekendOpeningTime}"
+                class="w-full px-3 py-2 border rounded-md"
+              />
+            </div>
+
+            <div class="mb-4">
+              <label
+                for="weekendClosingTime"
+                class="block text-gray-700 font-semibold mb-2"
+                >Closing Time:</label
+              >
+              <input
+                type="time"
+                id="weekendClosingTime"
+                name="weekendClosingTime"
+                th:field="*{weekendClosingTime}"
+                class="w-full px-3 py-2 border rounded-md"
+              />
+            </div>
+
+            <!-- Save Button -->
+            <div class="mb-4">
+              <button
+                type="submit"
+                class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
         </section>
       </div>
     </main>

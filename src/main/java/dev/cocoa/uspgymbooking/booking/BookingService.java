@@ -4,16 +4,16 @@ import dev.cocoa.uspgymbooking.email.EmailService;
 import dev.cocoa.uspgymbooking.facility.Facility;
 import dev.cocoa.uspgymbooking.facility.FacilityRepository;
 import dev.cocoa.uspgymbooking.facility.FacilityService;
+import dev.cocoa.uspgymbooking.facility.FacilityStatus;
 import dev.cocoa.uspgymbooking.notification.NotificationService;
 import dev.cocoa.uspgymbooking.user.User;
-import dev.cocoa.uspgymbooking.user.UserRepository;
 import dev.cocoa.uspgymbooking.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,9 +21,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +33,13 @@ public class BookingService implements IBookingService {
     private final UserService userService;
     private final EmailService emailService;
     private final NotificationService notificationService;
+
+    //EMAIL TEMPLATE ID'S DO NOT TOUCH
+    @Value("${sendgrid.template.booking}")
+    private String bookingEmailTemplate;
+
+    @Value("${sendgrid.template.cancellation}")
+    private String cancelledEmailTemplate;
 
     @Override
     public Booking createBooking(BookingFormDTO form) {
@@ -57,12 +63,58 @@ public class BookingService implements IBookingService {
             notificationService.notifyAdmin(notification);
 
         try {
-            emailService.sendBookingEmail(savedBooking);
+            emailService.sendEmail(savedBooking,bookingEmailTemplate);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         return savedBooking;
+    }
+
+    @Override
+    public Booking setMaintenance(BookingFormDTO form) {
+        Booking booking = new Booking();
+        User user = userService.getUser(form.getUserId());
+        booking.setUser(user);
+        Facility facility = facilityService.getFacility(form.getFacilityId());
+
+        booking.setFacility(facility);
+        booking.setBookedDate(form.getBookedDate());
+        booking.setStart(form.getStart());
+        booking.setEnd(form.getEnd());
+        booking.setStatus(BookingStatus.MAINTENANCE);
+
+        Booking savedBooking = bookingRepository.save(booking);
+
+        List<Booking> cancelledBookings = bookingRepository.findBookingsBetweenMaintenanceTimes(
+                form.getBookedDate(),
+                facility,
+                form.getStart(),
+                form.getEnd());
+
+        cancelBookings(cancelledBookings);
+        return savedBooking;
+    }
+
+    @Override
+    public List<Booking> getBookingByStatus(BookingStatus status) {
+        return bookingRepository.findAllByStatus(status);
+    }
+
+
+    @Override
+    public void cancelBookings(List<Booking> cancelledBookings) {
+        for (Booking booking : cancelledBookings) {
+            booking.setStatus(BookingStatus.DELETED);
+            try {
+                emailService.sendEmail(booking,cancelledEmailTemplate);
+                Thread.sleep(2000);
+            } catch (IOException | InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        // Save the updated bookings to the database
+        bookingRepository.saveAll(cancelledBookings);
     }
 
     @Override

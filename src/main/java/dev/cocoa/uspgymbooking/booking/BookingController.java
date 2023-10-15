@@ -2,6 +2,7 @@ package dev.cocoa.uspgymbooking.booking;
 
 import dev.cocoa.uspgymbooking.facility.Facility;
 import dev.cocoa.uspgymbooking.facility.FacilityService;
+import dev.cocoa.uspgymbooking.facility.FacilityStatus;
 import dev.cocoa.uspgymbooking.transaction.Transaction;
 import dev.cocoa.uspgymbooking.user.User;
 import dev.cocoa.uspgymbooking.user.UserService;
@@ -36,6 +37,10 @@ public class BookingController {
     public String bookingForm(Model model, @AuthenticationPrincipal UserDetails authUser, @PathVariable("id") Long id){
         User user= userService.findByEmail(authUser.getUsername());
         Facility facility = facilityService.getFacility(id);
+
+        if(facility.getStatus() != FacilityStatus.AVAILABLE){
+            return "redirect:/booking?error";
+        }
         BookingFormDTO bookingForm = new BookingFormDTO();
         bookingForm.setUserId(user.getId());
         bookingForm.setFacilityId(facility.getId());

@@ -9,4 +9,6 @@ public interface IFacilityService {
 
     Facility getFacility(Long id);
     Facility addFacility(Facility facility);
+
+    Facility saveFacility(Facility facility);
 }

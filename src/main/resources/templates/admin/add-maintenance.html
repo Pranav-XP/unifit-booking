@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Maintenance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <div th:replace="fragments/admin-header.html :: header"></div>
+    <div th:replace="fragments/sidebar :: aside"></div>
+    <main class="p-10 lg:ml-[190px] lg:pt-10 pt-20">
+      <h2 class="text-xl md:text-2xl lg:text-3xl font-bold mt-6 mb-8">
+        Select a date and time
+      </h2>
+      <div class="w-full lg:grid-cols-2 gap-4">
+        <section id="bookingForm" class="lg:p-4">
+          <form
+            class="flex bg-gray-200 border rounded-md flex-col gap-3 p-4"
+            method="post"
+            th:action="@{/admin/maintenance/add}"
+            th:object="${schedule}"
+          >
+            <p class="text-xl font-semibold">
+              Selected Facility:
+              <span class="font-normal" th:text="${facility.name}"
+                >Facility Name</span
+              >
+            </p>
+
+            <input
+              type="hidden"
+              id="userId"
+              name="userId"
+              th:field="*{userId}"
+            />
+            <input
+              type="hidden"
+              id="selectedFacilityId"
+              th:field="*{facilityId}"
+            />
+
+            <label for="bookingDate" class="font-semibold">Date:</label>
+            <input
+              class="p-2 rounded"
+              type="date"
+              id="bookingDate"
+              th:field="*{bookedDate}"
+              th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+              required
+            />
+
+            <label for="startTime" class="font-semibold">Start Time:</label>
+            <input
+              class="p-2 rounded"
+              type="time"
+              required
+              id="startTime"
+              th:field="*{start}"
+            />
+
+            <label for="endTime" class="font-semibold">End Time:</label>
+            <input
+              class="p-2 rounded"
+              type="time"
+              required
+              id="endTime"
+              th:field="*{end}"
+            />
+
+            <button
+              type="submit"
+              class="border border-blue-600 text-lg lg:text-base bg-blue-500 px-5 py-2 rounded-md font-semibold hover:bg-blue-600 text-white w-full"
+            >
+              Set Maintenance
+            </button>
+          </form>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

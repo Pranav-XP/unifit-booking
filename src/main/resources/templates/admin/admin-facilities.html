@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body class="bg-gray-100">
     <div th:replace="fragments/admin-header.html :: header"></div>
@@ -17,12 +18,13 @@
 
           <!-- Check if facility types list is not empty -->
           <th:block th:if="${not #lists.isEmpty(facilityTypes)}">
-            <table class="min-w-full border border-gray-300">
+            <table class="min-w-full border border-gray-300 mb-3">
               <thead>
                 <tr class="bg-gray-200">
                   <th class="py-2 px-4 border-b text-left">ID</th>
                   <th class="py-2 px-4 border-b text-left">Name</th>
                   <th class="py-2 px-4 border-b text-left">Rate</th>
+                  <th class="py-2 px-4 border-b text-left"></th>
                   <!-- Add additional columns as needed -->
                 </tr>
               </thead>
@@ -41,8 +43,15 @@
                   ></td>
                   <td
                     class="py-2 px-4 border-b"
-                    th:text="${facilityType.rate.toString()}"
+                    th:text="'$ '+${facilityType.rate.toString()} "
                   ></td>
+                  <td class="py-2 px-2 border-b">
+                    <a
+                            th:href="@{'/admin/facilities/type/' + ${facilityType.id}}"
+                            class="flex gap-1 font-semibold hover:bg-blue-200 bg-blue-100 justify-center p-1 rounded"
+                    ><i data-lucide="clipboard-edit" class="w-5"></i>
+                      Update</a
+                    >
                 </tr>
               </tbody>
             </table>
@@ -65,12 +74,13 @@
 
           <!-- Check if facilities list is not empty -->
           <th:block th:if="${not #lists.isEmpty(facilities)}">
-            <table class="min-w-full border border-gray-300">
+            <table class="min-w-full border border-gray-300 mb-3">
               <thead>
                 <tr class="bg-gray-200 text-left">
                   <th class="py-2 px-4 border-b">ID</th>
                   <th class="py-2 px-4 border-b">Name</th>
                   <th class="py-2 px-4 border-b">Status</th>
+                  <th class="py-2 px-4 border-b"></th>
                   <!-- Add additional columns as needed -->
                 </tr>
               </thead>
@@ -88,6 +98,17 @@
                     class="py-2 px-4 border-b"
                     th:text="${facility.status.getDisplayName()}"
                   ></td>
+                  <td class="py-2 px-2 border-b">
+                    <a
+                      th:href="@{'/admin/facilities/' + ${facility.id}}"
+                      class="flex gap-1 font-semibold hover:bg-blue-200 bg-blue-100 justify-center p-1 rounded"
+                      ><i data-lucide="clipboard-edit" class="w-5"></i>
+                      Update</a
+                    >
+                    <script>
+                      lucide.createIcons();
+                    </script>
+                  </td>
                   <!-- Add additional cells for other properties -->
                 </tr>
               </tbody>

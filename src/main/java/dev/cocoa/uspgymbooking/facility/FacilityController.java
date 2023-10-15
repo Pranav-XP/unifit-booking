@@ -22,9 +22,6 @@ public class FacilityController {
        return "facilities";
     }
 
-    @GetMapping("/id")
-    public String displayFacility(){
-        return "facility";
-    }
+
 
 }

@@ -21,19 +21,16 @@ public class EmailService {
     @Value("${sendgrid.apikey}")
     private String apiKey;
 
-    @Value("${sendgrid.template.booking}")
-    private String bookingTemplate;
-
-    public void sendBookingEmail(Booking booking) throws IOException{
+    public void sendEmail(Booking booking,String templateId) throws IOException{
         System.out.println(apiKey);
-        System.out.println(bookingTemplate);
+        System.out.println(templateId);
         Email from = new Email("pranavchand777@gmail.com");
         Email toEmail = new Email(booking.getUser().getEmail());
         Mail mail = new Mail();
 
         mail.setFrom(from);
-        mail.setSubject("UniFit Booking Confirmation");
-        mail.setTemplateId(bookingTemplate);
+        mail.setSubject("UniFit Notification");
+        mail.setTemplateId(templateId);
 
         Personalization personalization = new Personalization();
         personalization.addTo(toEmail);
@@ -89,6 +86,7 @@ public class EmailService {
         data.put("bookingDate",bookingPayload.getBookingDate());
         data.put("facilityName",bookingPayload.getFacilityName());
         data.put("bookingStart",bookingPayload.getBookingStart());
+        data.put("status",bookingPayload.getStatus());
         data.put("bookingEnd",bookingPayload.getBookingEnd());
         data.put("total",bookingPayload.getTotal());
 

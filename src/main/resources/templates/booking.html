@@ -13,6 +13,12 @@
       <h2 class="text-xl md:text-2xl lg:text-3xl font-bold mt-6 mb-8">
         Select a Facility
       </h2>
+      <div
+        class="bg-red-400 m-5 p-5 rounded-md font-bold text-neutral-800 border border-red-800"
+        th:if="${param.error != null}"
+      >
+        Facility is unavailable!
+      </div>
       <!-- Facilities Container -->
       <div class="container mx-auto mt-8">
         <!-- Facility Cards -->

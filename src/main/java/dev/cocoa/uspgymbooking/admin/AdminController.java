@@ -1,25 +1,28 @@
 package dev.cocoa.uspgymbooking.admin;
 
 import dev.cocoa.uspgymbooking.booking.Booking;
+import dev.cocoa.uspgymbooking.booking.BookingFormDTO;
 import dev.cocoa.uspgymbooking.booking.BookingService;
+import dev.cocoa.uspgymbooking.booking.BookingStatus;
 import dev.cocoa.uspgymbooking.facility.Facility;
 import dev.cocoa.uspgymbooking.facility.FacilityService;
 import dev.cocoa.uspgymbooking.facility.facilitytype.FacilityType;
 import dev.cocoa.uspgymbooking.facility.facilitytype.FacilityTypeService;
 
+import dev.cocoa.uspgymbooking.user.User;
+import dev.cocoa.uspgymbooking.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.WeekFields;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,7 @@ public class AdminController {
     private final FacilityService facilityService;
     private final FacilityTypeService facilityTypeService;
     private final BookingService bookingService;
+    private final UserService userService;
 
 
     @GetMapping
@@ -54,7 +58,7 @@ public class AdminController {
 
     @GetMapping("/schedule")
     public String adminSchedulePage(){
-        return "admin/admin-schedule";
+        return "admin-maintenance";
     }
 
     @GetMapping("/facilities")
@@ -65,6 +69,7 @@ public class AdminController {
         model.addAttribute("facilityTypes",facilityTypes);
         return "admin/admin-facilities";
     }
+
 
     @GetMapping("/facilities/addtype")
     public String addTypeForm(Model model){
@@ -130,11 +135,56 @@ public class AdminController {
         return "admin/update-booking";
     }
 
+    @GetMapping("/facilities/{id}")
+    public String updateFacilityPage(@PathVariable("id") Long facilityId, Model model){
+        Facility facility = facilityService.getFacility(facilityId);
+        model.addAttribute("facility",facility);
+
+        return "admin/update-facility";
+    }
+
+    @PostMapping("/facilities/update")
+    public String updateFacility(@ModelAttribute("facility") Facility facility){
+        facilityService.saveFacility(facility);
+
+        return "redirect:/facilities";
+    }
+
     @PostMapping("/booking/update")
     public String updateBookingStatus(@ModelAttribute("booking") Booking booking) {
         bookingService.saveBooking(booking);
 
         return "redirect:/admin/booking/"+booking.getId();
+    }
+
+    @GetMapping("/maintenance")
+    public String maintenancePage(Model model){
+        List<Facility> facilities = facilityService.getAllFacilities();
+        List<Booking> schedules = bookingService.getBookingByStatus(BookingStatus.MAINTENANCE);
+
+        model.addAttribute("schedules",schedules);
+        model.addAttribute("facilities",facilities);
+        return "admin/admin-maintenance";
+    }
+
+    @GetMapping("/maintenance/{id}")
+    public String maintenanceForm(Model model,@PathVariable("id") Long id,@AuthenticationPrincipal UserDetails authUser){
+        Facility facility = facilityService.getFacility(id);
+        User user= userService.findByEmail(authUser.getUsername());
+        BookingFormDTO bookingForm = new BookingFormDTO();
+        bookingForm.setUserId(user.getId());
+        bookingForm.setFacilityId(facility.getId());
+        model.addAttribute("schedule", bookingForm);
+        model.addAttribute("user",user);
+        model.addAttribute("facility",facility);
+        return "admin/add-maintenance";
+    }
+
+    @PostMapping("/maintenance/add")
+    public String addMaintenance(@ModelAttribute("schedule") BookingFormDTO form){
+
+        bookingService.setMaintenance(form);
+        return "redirect:/admin/facilities";
     }
 
     private Map<String,Long> countBookingsByFacility(List<Booking> bookings) {
