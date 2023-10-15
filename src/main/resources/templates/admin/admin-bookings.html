@@ -14,16 +14,35 @@
       <h1 class="text-3xl lg:text-5xl px-5 py-5 font-bold">All Bookings</h1>
       <!-- Table -->
       <div class="overflow-x-auto bg-white rounded-md shadow-md p-5">
-        <div class="mb-4">
-          <label for="customerNameSearch" class="block font-semibold mb-1"
-            >Search by Customer Name:</label
-          >
-          <input
-            type="text"
-            id="customerNameSearch"
-            class="w-full p-2 border rounded-md"
-            oninput="searchTable()"
-          />
+        <div class="mb-4 grid grid-cols-2 gap-3">
+          <div>
+            <label for="customerNameSearch" class="block font-semibold mb-1"
+              >Search by Customer Name:</label
+            >
+            <input
+              type="text"
+              id="customerNameSearch"
+              class="w-full p-2 border rounded-md"
+              oninput="searchTable()"
+            />
+          </div>
+
+          <div>
+            <label for="bookingIdSearch" class="block font-semibold mb-1"
+              >Search by Booking ID:</label
+            >
+            <div class="flex gap-2 items-center">
+              <input
+                type="number"
+                id="bookingIdSearch"
+                class="w-full p-2 border rounded-md"
+              /><i
+                onclick="searchBookingId()"
+                class="cursor-pointer bg-blue-500 text-white w-10 h-10 p-1 rounded-sm"
+                data-lucide="search"
+              ></i>
+            </div>
+          </div>
         </div>
         <table class="min-w-full">
           <thead>
@@ -172,6 +191,17 @@
           }
         }
       }
+    }
+
+    function searchBookingId() {
+      // Get the input value
+      const bookingId = document.getElementById("bookingIdSearch").value;
+
+      // Construct the URL based on the bookingId
+      const url = `/admin/booking/${bookingId}`;
+
+      // Navigate to the URL
+      window.location.href = url;
     }
   </script>
 </html>

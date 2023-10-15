@@ -7,6 +7,123 @@
   </head>
   <body>
     <div th:replace="fragments/header :: header"></div>
-    <main class="mt-[88px] p-10">Homepage</main>
+    <main class="mt-[88px]">
+      <!-- Hero Section -->
+      <section class="bg-blue-900 text-white text-center py-16">
+        <h1 class="text-4xl lg:text-6xl font-bold mb-4">
+          Welcome to UniFit Centre
+        </h1>
+        <p class="text-lg lg:text-xl">
+          Making fitness accessible to the community.
+        </p>
+      </section>
+
+      <!-- Booking Steps Section -->
+      <section class="mt-10 px-5 lg:px-20 py-16 bg-gray-100">
+        <h2 class="text-3xl lg:text-4xl font-bold mb-8 text-center">
+          How Does It Work?
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- Step 1 -->
+          <div class="bg-blue-500 p-20 m-10 rounded-lg text-white">
+            <h3 class="text-3xl font-bold mb-4">Step 1</h3>
+            <p class="text-xl font-medium">
+              Choose a fitness facility of your choice
+            </p>
+          </div>
+
+          <!-- Illustration for Step 1 -->
+          <div
+            class="bg-blue-200 p-20 m-10 rounded-lg flex items-center justify-center"
+          >
+            <img
+              th:src="@{/images/061.png}"
+              alt="Step 1 Illustration"
+              style="max-width: 100%; height: auto"
+            />
+          </div>
+
+          <!-- Illustration for Step 2 -->
+          <div
+            class="bg-slate-200 m-10 p-10 rounded-lg flex items-center justify-center"
+          >
+            <img
+              src="/images/illustration1.png"
+              alt="Step 2 Illustration"
+              style="max-width: 100%; height: auto"
+            />
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-blue-700 p-20 m-10 rounded-lg text-white">
+            <h3 class="text-3xl font-bold mb-4">Step 2</h3>
+            <p class="text-xl font-medium">
+              Pick a date and select from the available times
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-blue-600 mx-10 p-10 rounded-lg text-white">
+            <h3 class="text-3xl font-bold mb-4">Step 3</h3>
+            <p class="text-xl font-medium">
+              Confirm your booking and that's it.
+            </p>
+            <p class="text-xl font-medium">
+              Your booking details will be emailed to you!
+            </p>
+          </div>
+
+          <!-- Illustration for Step 3 -->
+          <div
+            class="bg-gray-200 mx-10 py-10 rounded-lg flex items-center justify-center"
+          >
+            <img
+              src="/images/051.png"
+              alt="Step 3 Illustration"
+              style="max-width: 100%; height: auto"
+            />
+          </div>
+        </div>
+
+        <!-- Final Note -->
+        <div class="mt-10 text-center">
+          <p class="text-xl lg:text-2xl font-semibold">
+            Simple, quick, and secure!
+          </p>
+        </div>
+      </section>
+
+      <!-- Booking CTA Section -->
+      <section class="mt-10 bg-gray-100 py-16 text-center">
+        <h2 class="text-3xl font-bold mb-6">Ready to book?</h2>
+        <p class="text-lg mb-6">Create an account and reserve your spot now!</p>
+        <a
+          href="/registration"
+          class="bg-blue-500 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-600"
+          >Create Account</a
+        >
+      </section>
+
+      <!-- View facilities -->
+      <section
+        class="bg-blue-800 text-white mt-10 mx-10 rounded-xl py-16 text-center mb-5"
+      >
+        <h2 class="text-3xl font-bold mb-6">What we have to offer?</h2>
+        <p class="text-lg mb-6">
+          Explore our state of the art facilities. Open to students and the
+          community!
+        </p>
+        <a
+          href="/facilities"
+          class="bg-slate-50 text-blue-900 px-6 py-3 border border-black font-semibold rounded-md font-semibold"
+          >View Facilities</a
+        >
+      </section>
+
+      <footer class="text-center py-4 bg-gray-200 text-black font-medium">
+        Created by Group 7: Chen, Aryan, Shivam, and Pranav.
+      </footer>
+    </main>
   </body>
 </html>

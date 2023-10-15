@@ -70,6 +70,26 @@ public class AdminController {
         return "admin/admin-facilities";
     }
 
+    @GetMapping("facilities/type/{id}")
+    public String adminFacilitiesTypePage(Model model,@PathVariable("id") Long  facilityTypeId){
+        FacilityType facilityType = facilityTypeService.getFacilityTypeById(facilityTypeId);
+        model.addAttribute("facilityType",facilityType);
+
+        return "admin/update-type";
+    }
+
+    @PostMapping("facilities/type/update")
+    public String updateFacilityType(@ModelAttribute("facilityType") FacilityType facilityType){
+        facilityTypeService.saveFacilityType(facilityType);
+        return "redirect:/admin/facilities";
+    }
+
+    @PostMapping("/facilities/update")
+    public String updateFacility(@ModelAttribute("facility") Facility facility){
+        facilityService.saveFacility(facility);
+
+        return "redirect:/admin/facilities";
+    }
 
     @GetMapping("/facilities/addtype")
     public String addTypeForm(Model model){
@@ -77,6 +97,7 @@ public class AdminController {
         model.addAttribute("facilityType",newFacilityType);
         return "admin/add-facility-type";
     }
+
     @PostMapping("/facilities/addtype")
     public String addFacilityType(@ModelAttribute FacilityType newFacilityType){
         facilityTypeService.addFacilityType(newFacilityType);
@@ -143,12 +164,7 @@ public class AdminController {
         return "admin/update-facility";
     }
 
-    @PostMapping("/facilities/update")
-    public String updateFacility(@ModelAttribute("facility") Facility facility){
-        facilityService.saveFacility(facility);
 
-        return "redirect:/facilities";
-    }
 
     @PostMapping("/booking/update")
     public String updateBookingStatus(@ModelAttribute("booking") Booking booking) {

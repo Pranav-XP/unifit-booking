@@ -18,6 +18,15 @@ public class FacilityTypeService implements IFacilityTypeService {
     }
 
     @Override
+    public FacilityType saveFacilityType(FacilityType facilityType) {
+        FacilityType updated = facilityTypeRepository.findById(facilityType.getId()).get();
+        updated.setName(facilityType.getName());
+        updated.setRate(facilityType.getRate());
+
+        return facilityTypeRepository.save(updated);
+    }
+
+    @Override
     public FacilityType getFacilityTypeById(Long id) {
         Optional<FacilityType> facilityType = facilityTypeRepository.findById(id);
         return facilityType.get();
