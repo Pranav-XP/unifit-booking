@@ -48,6 +48,13 @@
                   th:class="${T(dev.cocoa.uspgymbooking.facility.FacilityStatus).getStatusColor(facility.status)}"
                 ></div>
               </div>
+              <p class="mb-4 font-semibold">
+                Rate p/hr:
+                <span
+                  class="font-normal"
+                  th:text="'$'+${facility.facilityType.rate}"
+                ></span>
+              </p>
               <p class="mb-2">
                 <span class="font-bold">Weekdays:</span>
                 <span

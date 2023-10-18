@@ -4,7 +4,7 @@ import dev.cocoa.uspgymbooking.email.EmailService;
 import dev.cocoa.uspgymbooking.facility.Facility;
 import dev.cocoa.uspgymbooking.facility.FacilityRepository;
 import dev.cocoa.uspgymbooking.facility.FacilityService;
-import dev.cocoa.uspgymbooking.facility.FacilityStatus;
+
 import dev.cocoa.uspgymbooking.notification.NotificationService;
 import dev.cocoa.uspgymbooking.user.User;
 import dev.cocoa.uspgymbooking.user.UserService;
@@ -105,7 +105,9 @@ public class BookingService implements IBookingService {
     @Override
     public void cancelBookings(List<Booking> cancelledBookings) {
         for (Booking booking : cancelledBookings) {
-            booking.setStatus(BookingStatus.DELETED);
+            if (booking.getStatus() != BookingStatus.MAINTENANCE) {
+                booking.setStatus(BookingStatus.DELETED);
+            }
             try {
                 emailService.sendEmail(booking,cancelledEmailTemplate);
                 Thread.sleep(2000);

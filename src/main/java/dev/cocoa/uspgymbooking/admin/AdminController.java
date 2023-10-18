@@ -56,10 +56,6 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/schedule")
-    public String adminSchedulePage(){
-        return "admin-maintenance";
-    }
 
     @GetMapping("/facilities")
     public String adminFacilitiesPage(Model model){
@@ -200,7 +196,7 @@ public class AdminController {
     public String addMaintenance(@ModelAttribute("schedule") BookingFormDTO form){
 
         bookingService.setMaintenance(form);
-        return "redirect:/admin/facilities";
+        return "redirect:/admin/maintenance";
     }
 
     private Map<String,Long> countBookingsByFacility(List<Booking> bookings) {

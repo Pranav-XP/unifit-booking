@@ -6,14 +6,14 @@ import dev.cocoa.uspgymbooking.exception.UserAlreadyExistException;
 import dev.cocoa.uspgymbooking.user.IUserService;
 import dev.cocoa.uspgymbooking.user.User;
 import dev.cocoa.uspgymbooking.user.UserDTO;
-import jakarta.servlet.http.HttpServletRequest;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.MessageSource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,7 +32,10 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDTO, HttpServletRequest request, Errors errors){
+    public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return new ModelAndView("registration");
+        }
         try{
             User registered = userService.registerUser(userDTO);
             System.out.println("Sending email to: "+ registered.getEmail());

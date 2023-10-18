@@ -79,6 +79,9 @@
           <label class="font-medium text-3xl lg:text-base" for="email"
             >Email</label
           >
+          <span th:errors="*{email}" class="text-red-800 p-2 font-semibold"
+            >Please enter a valid email</span
+          >
           <input
             type="email"
             id="email"
