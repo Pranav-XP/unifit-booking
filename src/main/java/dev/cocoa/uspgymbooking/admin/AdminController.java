@@ -45,6 +45,7 @@ public class AdminController {
         LocalDate today = LocalDate.now();
         LocalDate nextWeek = today.plusDays(7);
 
+        //FILTER BOOKINGS INTO WEEKLy
         List<Booking> sortedBookings  = bookings.stream()
                 .filter(booking -> !booking.getBookedDate().isBefore(today))
                 .filter(booking -> booking.getBookedDate().isBefore(nextWeek))

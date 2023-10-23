@@ -47,6 +47,38 @@ To run UniFit locally, follow these steps:
 - Create more fleshed out user notification system
 - Tidy up maintenance scheduling module or make it its own module
 
+## Package by Feature
+- Promotes Best Practices
+- High cohesion
+- Low coupling
+- High modularity
+- Encapsulation (Minimize Scope)
+- Allows some classes to set their access modifier package-private instead of public.
+- Modularity
+- Since each package is limited to classes related to a particular feature, it is easy to break code down into a microservice later on.
+- Maintainability
+- Reduces the need to navigate between packages since all classes needed for a feature are in the same package.
+-  Testability
+- Since classes are not public, they can only be accessed by tests in the same package. This allows you to write more focused tests.
+- Domain Driven Design
+- Promotes Domain Driven Design
+
+## Package by Layer
+- Promotes Best Practice (❌)
+- Low cohesion
+- High coupling
+- Low modularity
+- Encapsulation (❌)
+- Most classes must be public
+- Modularity (❌)
+- Since each layer is limited to classes related to a particular layer, it is difficult to break code down into a microservice later on.
+- Maintainability (❌)
+- Since classes are scattered across packages, it is difficult to find the class you are looking for.
+- Testability (❌)
+- Since classes are public, they can be accessed by tests in any package. This allows you to write less focused tests.
+- Domain Driven Design (❌)
+- Promotes Database Driven Design
+
 ## Contributing
 
 This project was done as a requirement for CS241 University of the South Pacific. No contributions are required.
@@ -54,7 +86,3 @@ This project was done as a requirement for CS241 University of the South Pacific
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-```
-
-Feel free to customize it based on the specifics of your UniFit project. You might want to include additional sections like "Screenshots," "Known Issues," or "Future Enhancements" depending on the project's status and your plans for it.
